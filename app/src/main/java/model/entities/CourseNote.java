@@ -1,9 +1,9 @@
 package model.entities;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.PrimaryKey;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.ForeignKey;
+import androidx.room.ColumnInfo;
 
 import java.time.LocalDate;
 
@@ -41,6 +41,11 @@ public class CourseNote {
     }
 
     //mutators
+
+    public void setNoteId(long noteId) {
+        this.noteId = noteId;
+    }
+
     public void setCourseId(long courseId) {
         this.courseId = courseId;
     }

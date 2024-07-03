@@ -2,13 +2,17 @@ package model;
 
 import android.content.Context;
 
-import androidx.room.*;
+import androidx.room.Database;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
+import androidx.room.TypeConverters;
 
 import model.DAO.*;
 import model.entities.*;
 
 @Database(entities = {Term.class, Instructor.class, Course.class,
         CourseNote.class, Assessment.class}, version = 1)
+@TypeConverters(MyTypeConverters.class)
 public abstract class StudentDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "student_database.db";

@@ -1,10 +1,11 @@
 package model.entities;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.PrimaryKey;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.ColumnInfo;
 
 import java.time.LocalDate;
+
 
 @Entity(tableName = "terms")
 public class Term {
@@ -44,6 +45,11 @@ public class Term {
     }
 
     //mutators
+
+    public void setTermId(long termId) {
+        this.termId = termId;
+    }
+
     public void setTitle(String title) {
         this.title = title;
     }

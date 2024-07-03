@@ -1,3 +1,29 @@
 <resources>
+
     <string name="app_name">C196PaStudentApp</string>
+
+    <!-- Copy for home/main screen -->
+    <string name="main_intro">Hello Student! Welcome! This is an app to help you track and
+        manage your Terms, Courses, and Assessments. </string>
+    <string name="main_term_button">Go To Terms</string>
+    <string name="main_course_button">Go To Courses</string>
+    <string name="main_assessments_button">Go To Assessments</string>
+
+    <!-- Copy for term screens -->
+    <string name="title_term_list">Terms</string>
+    <string name="term_list_intro">Add a term using the button in the bottom right,
+        or select an existing term to see details, edit, or delete that term.</string>
+    <string name="edit_term_courses_instructions">Manage courses for this term using the list below.
+        Checked courses will be added to the term; unchecked courses will be removed. Note: All
+        courses must be removed before deleting the term.</string>
+
+    <!-- Copy for courses screens -->
+    <string name="course_list">Courses: </string>
+
+    <!-- Copy for the details screens -->
+    <string name="start">Start Date: </string>
+    <string name="end">End Date: </string>
+    <string name="date_placeholder">MM/DD/YYYY</string>
+
+
 </resources>

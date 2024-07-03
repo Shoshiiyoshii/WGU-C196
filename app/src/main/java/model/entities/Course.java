@@ -1,15 +1,16 @@
 package model.entities;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.PrimaryKey;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.ForeignKey;
+import androidx.room.ColumnInfo;
+
 
 import java.time.LocalDate;
 
 @Entity(tableName = "courses", foreignKeys = { @ForeignKey(entity = Term.class,
                                                                     parentColumns = "term_id",
-                                                                    childColumns = "term_Id",
+                                                                    childColumns = "term_id",
                                                                     onDelete = ForeignKey.RESTRICT),
                                                 @ForeignKey(entity = Instructor.class,
                                                                     parentColumns = "instructor_id",
@@ -78,6 +79,11 @@ public class Course {
     }
 
     //mutators
+
+    public void setCourseId(long courseId) {
+        this.courseId = courseId;
+    }
+
     public void setTermId(long termId) {
         this.termId = termId;
     }

@@ -16,13 +16,16 @@
             android:name="view.TermDetailsActivity"
             android:exported="false" />
         <activity
-            android:name="view.CourseNoteActivity"
-            android:exported="false" />
-        <activity
-            android:name="view.AssessmentActivity"
+            android:name="view.AssessmentDetailsActivity"
             android:exported="false" />
         <activity
             android:name="view.TermActivity"
+            android:exported="false" />
+        <activity
+            android:name="view.CourseDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name="view.AssessmentActivity"
             android:exported="false" />
         <activity
             android:name="view.CourseActivity"

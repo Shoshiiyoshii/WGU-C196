@@ -1,9 +1,9 @@
 package model.entities;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.PrimaryKey;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.ForeignKey;
+import androidx.room.ColumnInfo;
 
 @Entity(tableName = "instructors")
 public class Instructor {
@@ -45,6 +45,11 @@ public class Instructor {
     }
 
     //mutators
+
+    public void setInstructorId(long instructorId) {
+        this.instructorId = instructorId;
+    }
+
     public void setInstructorName(String instructorName) {
         this.instructorName = instructorName;
     }

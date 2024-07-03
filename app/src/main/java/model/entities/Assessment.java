@@ -1,15 +1,15 @@
 package model.entities;
 
-import android.arch.persistence.room.ColumnInfo;
-import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.PrimaryKey;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.ForeignKey;
+import androidx.room.ColumnInfo;
 
 import java.time.LocalDate;
 
 @Entity(tableName = "assessments", foreignKeys = @ForeignKey(entity = Course.class,
                                                                 parentColumns = "course_id",
-                                                                childColumns = "course_Id",
+                                                                childColumns = "course_id",
                                                                 onDelete = ForeignKey.CASCADE))
 public class Assessment {
     @PrimaryKey(autoGenerate = true)
@@ -66,6 +66,11 @@ public class Assessment {
     }
 
     //mutators
+
+    public void setAssessmentId(long assessmentId) {
+        this.assessmentId = assessmentId;
+    }
+
     public void setCourseId(long courseId) {
         this.courseId = courseId;
     }
