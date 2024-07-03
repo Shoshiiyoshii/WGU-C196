@@ -1,16 +1,18 @@
 package model.entities;
 
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.ForeignKey;
 import androidx.room.ColumnInfo;
 
 import java.time.LocalDate;
 
-@Entity(tableName = "assessments", foreignKeys = @ForeignKey(entity = Course.class,
-                                                                parentColumns = "course_id",
-                                                                childColumns = "course_id",
-                                                                onDelete = ForeignKey.CASCADE))
+@Entity(tableName = "assessments", indices = @Index("course_id"),
+        foreignKeys = @ForeignKey(entity = Course.class,
+                                    parentColumns = "course_id",
+                                    childColumns = "course_id",
+                                    onDelete = ForeignKey.CASCADE))
 public class Assessment {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "assessment_id")

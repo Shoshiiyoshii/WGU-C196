@@ -1,6 +1,7 @@
 package model.entities;
 
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.ForeignKey;
 import androidx.room.ColumnInfo;
@@ -8,14 +9,15 @@ import androidx.room.ColumnInfo;
 
 import java.time.LocalDate;
 
-@Entity(tableName = "courses", foreignKeys = { @ForeignKey(entity = Term.class,
-                                                                    parentColumns = "term_id",
-                                                                    childColumns = "term_id",
-                                                                    onDelete = ForeignKey.RESTRICT),
-                                                @ForeignKey(entity = Instructor.class,
-                                                                    parentColumns = "instructor_id",
-                                                                    childColumns = "instructor_id",
-                                                                    onDelete = ForeignKey.CASCADE)})
+@Entity(tableName = "courses", indices = {@Index("term_id"), @Index("instructor_id")},
+        foreignKeys = { @ForeignKey(entity = Term.class,
+                                    parentColumns = "term_id",
+                                    childColumns = "term_id",
+                                    onDelete = ForeignKey.RESTRICT),
+                        @ForeignKey(entity = Instructor.class,
+                                    parentColumns = "instructor_id",
+                                    childColumns = "instructor_id",
+                                    onDelete = ForeignKey.CASCADE)})
 public class Course {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "course_id")
