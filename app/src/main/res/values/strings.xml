@@ -3,6 +3,7 @@
     <string name="app_name">C196PaStudentApp</string>
 
     <!-- Copy for home/main screen -->
+    <string name="title_home">Home</string>
     <string name="main_intro">Hello Student! Welcome! This is an app to help you track and
         manage your Terms, Courses, and Assessments. </string>
     <string name="main_term_button">Go To Terms</string>
@@ -10,20 +11,69 @@
     <string name="main_assessments_button">Go To Assessments</string>
 
     <!-- Copy for term screens -->
-    <string name="title_term_list">Terms</string>
+    <string name="title_terms">Terms</string>
+    <string name="terms_add_or_edit_title">Add or Edit Term</string>
     <string name="term_list_intro">Add a term using the button in the bottom right,
-        or select an existing term to see details, edit, or delete that term.</string>
+        or select one of your existing terms to see details, edit, or delete that term.</string>
+    <string name="term_add">Add Term</string>
     <string name="edit_term_courses_instructions">Manage courses for this term using the list below.
         Checked courses will be added to the term; unchecked courses will be removed. Note: All
         courses must be removed before deleting the term.</string>
+    <string name="term_name">Term Title:</string>
+    <string name="term_name_hint">Name this term</string>
 
     <!-- Copy for courses screens -->
-    <string name="course_list">Courses: </string>
+    <string name="title_courses">Courses</string>
+    <string name="associated_courses">Associated Courses:</string>
+    <string name="course_list_intro">Add a course using the button in the bottom right,
+        or select one of your existing courses to see details, edit, or delete that course.</string>
+    <string name="edit_course_assessments_instructions">Manage assessments for this course using the list below.
+        Checked assessments will be added to the term; unchecked assessments will be removed. Note: All
+        assessments must be removed before deleting the term.</string>
+    <string name="course_add_edit_title">Add Or Edit Course</string>
+    <string name="course_name">Course Name:</string>
+    <string name="course_name_hint">Name this course</string>
+    <string name="course_notes_hint">Add an optional note to this course.</string>
+    <string name="instructor_name">Instructor Name: </string>
+    <string name="instructor_phone">Instructor Phone: </string>
+    <string name="instructor_email">Instructor Email:</string>
+    <string name="instructor_name_hint"> First and Last Name</string>
+    <string name="instructor_email_hint">instructoremail@email.edu</string>
+    <string name="instructor_phone_hint">(xxx)xxx-xxxx</string>
+
+    <!-- Copy for assessments screens -->
+    <string name="title_assessments">Assessments</string>
+    <string name="associated_assessments">Select this courses assessments: </string>
+    <string name="assessment_list_intro">Add an assessment using the button in the bottom right,
+        or select one of your existing assessments to see details, edit, or delete that assessment.</string>
+    <string name="assessment_add">Add Assessment</string>
+    <string name="assessment_type">Assessment Type:</string>
+    <string name="objective">Objective</string>
+    <string name="performance">Performance</string>
+    <string name="assessment_name">Assessment Name:</string>
+    <string name="assessment_name_hint">Name this assessment</string>
+
 
     <!-- Copy for the details screens -->
     <string name="start">Start Date: </string>
     <string name="end">End Date: </string>
     <string name="date_placeholder">MM/DD/YYYY</string>
+
+    <string name="edit_button">Edit</string>
+    <string name="delete_button">Delete</string>
+    <string name="save_button">Save Changes</string>
+    <string name="discard_button">Discard Changes</string>
+
+
+
+    <string name="status">Status: </string>
+    <string name="in_progress">In Progress</string>
+    <string name="dropped">Dropped</string>
+    <string name="planned">Plan to Take</string>
+    <string name="completed">Completed</string>
+
+    <string name="course_notes">Course Notes:</string>
+    <string name="add_note_button">Add Course Note</string>
 
 
 </resources>

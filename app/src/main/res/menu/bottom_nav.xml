@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic__home"
+        android:title="@string/title_home" />
+    <item
+        android:id="@+id/nav_terms"
+        android:icon="@drawable/ic__terms"
+        android:title="@string/title_terms" />
+    <item
+        android:id="@+id/nav_courses"
+        android:icon="@drawable/ic__courses"
+        android:title="@string/title_courses" />
+    <item
+        android:id="@+id/nav_assessments"
+        android:icon="@drawable/ic__assessments"
+        android:title="@string/title_assessments" />
+
+</menu>
