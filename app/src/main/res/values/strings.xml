@@ -73,7 +73,7 @@
     <string name="completed">Completed</string>
 
     <string name="course_notes">Course Notes:</string>
-    <string name="add_note_button">Add Course Note</string>
+    <string name="course_add">Add Course</string>
 
 
 </resources>

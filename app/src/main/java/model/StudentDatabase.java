@@ -11,7 +11,7 @@ import model.DAO.*;
 import model.entities.*;
 
 @Database(entities = {Term.class, Instructor.class, Course.class,
-        CourseNote.class, Assessment.class}, version = 1)
+        CourseNote.class, Assessment.class}, version = 1, exportSchema = false)
 @TypeConverters(MyTypeConverters.class)
 public abstract class StudentDatabase extends RoomDatabase {
 
