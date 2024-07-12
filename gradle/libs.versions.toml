@@ -1,5 +1,5 @@
 [versions]
-agp = "8.4.0"
+agp = "8.5.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
 espressoCore = "3.6.1"
@@ -10,6 +10,8 @@ constraintlayout = "2.1.4"
 common = "1.1.1"
 roomRuntime = "2.6.1"
 roomCompiler = "2.6.1"
+navigationFragment = "2.7.7"
+navigationUi = "2.7.7"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -22,6 +24,8 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 common = { group = "android.arch.persistence.room", name = "common", version.ref = "common" }
 room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "roomRuntime" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "roomCompiler" }
+navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
+navigation-ui = { group = "androidx.navigation", name = "navigation-ui", version.ref = "navigationUi" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

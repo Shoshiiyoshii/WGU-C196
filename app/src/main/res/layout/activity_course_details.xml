@@ -162,7 +162,7 @@
                 android:id="@+id/recyclerViewAssessments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/item_assessment" />
+                tools:listitem="@layout/list_item" />
 
             <!-- Notes -->
             <TextView
