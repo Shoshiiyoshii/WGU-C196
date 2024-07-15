@@ -2,17 +2,30 @@ package view;
 
 import android.content.Intent;
 import android.os.Bundle;
-
+import android.util.Log;
+import android.widget.Button;
+import android.widget.EditText;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
+import androidx.room.Room;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thomasmccue.c196pastudentapp.R;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.List;
+
+import model.StudentDatabase;
+import model.entities.Term;
 
 public class AddTermActivity extends AppCompatActivity {
+    private EditText termTitleInput;
+    private EditText termStartInput;
+    private EditText termEndInput;
+    private StudentDatabase studentDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +39,68 @@ public class AddTermActivity extends AppCompatActivity {
             return insets;
         });
 
+        //discard button listener
         findViewById(R.id.termDiscardButton).setOnClickListener(view -> {
             startActivity(new Intent(AddTermActivity.this, TermActivity.class));
         });
 
+        //new term data and save button listeners
+        termTitleInput = findViewById(R.id.termTitleInput);
+        termStartInput = findViewById(R.id.termStartDateInput);
+        termEndInput = findViewById(R.id.termEndDateInput);
+        Button saveButton = findViewById(R.id.termSaveButton);
+
+        studentDatabase = Room.databaseBuilder(getApplicationContext(), StudentDatabase.class,
+                "student_database").build();
+
+        saveButton.setOnClickListener(v -> {
+            String name = termTitleInput.getText().toString();
+            String startDateString = termStartInput.getText().toString();
+            String endDateString = termEndInput.getText().toString();
+
+            // Validate and parse start date FIXME validate dates are after one another and valid
+            LocalDate startDate = null;
+            try {
+                startDate = LocalDate.parse(startDateString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+            } catch (DateTimeParseException e) {
+                // Handle invalid start date format
+                termStartInput.setError("Invalid date format. Please use MM/DD/YYYY.");
+                return; // Exit the click listener
+            }
+
+            // Validate and parse end date
+            LocalDate endDate = null;
+            try {
+                endDate = LocalDate.parse(endDateString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+            } catch (DateTimeParseException e) {
+                // Handle invalid end date format
+                termEndInput.setError("Invalid date format. Please use MM/DD/YYYY.");
+                return; // Exit the click listener
+            }
+
+            // Create a new Term object
+            Term term = new Term(name, startDate, endDate);
+
+            // Insert term into database
+            new Thread(() -> {
+                studentDatabase.termDAO().insert(term);
+
+                //FIXME check that insert was successful
+                // Retrieve and log all terms
+                List<Term> allTerms = studentDatabase.termDAO().getAllTerms();
+                for (Term t : allTerms) {
+                    Log.d("AddTermActivity", "Term: " + t.getTitle() + ", Start Date: " + t.getStartDate() + ", End Date: " + t.getEndDate());
+                }
+
+                runOnUiThread(() -> {
+                    startActivity(new Intent(AddTermActivity.this, TermActivity.class));
+                    finish();
+                });
+            }).start();
+        });
+
+
+        //bottom navigation listeners
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.nav_terms);
 

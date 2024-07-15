@@ -7,11 +7,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thomasmccue.c196pastudentapp.R;
 
+import java.util.List;
+
+import controller.TermAdapter;
+import model.StudentDatabase;
+import model.entities.Term;
+
 public class TermActivity extends AppCompatActivity {
+    private RecyclerView termsRecyclerView;
+    private TermAdapter termAdapter;
+    private StudentDatabase studentDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +41,28 @@ public class TermActivity extends AppCompatActivity {
             startActivity(new Intent(TermActivity.this, AddTermActivity.class));
         });
 
+        //populate the recyclerview with terms
+        termsRecyclerView = findViewById(R.id.recyclerViewTerms);
+        termsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        termAdapter = new TermAdapter();
+        termsRecyclerView.setAdapter(termAdapter);
+
+        studentDatabase = StudentDatabase.getInstance(this);
+
+        // Load terms from database and update RecyclerView
+        loadTerms();
+
+    }
+
+    private void loadTerms() {
+        new Thread(() -> {
+            List<Term> terms = studentDatabase.termDAO().getAllTerms();
+            runOnUiThread(() -> {
+                termAdapter.setTerms(terms);
+            });
+        }).start();
+
+        //listeners for the bottom navigation
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.nav_terms);
 
