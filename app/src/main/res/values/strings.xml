@@ -21,6 +21,7 @@
         courses must be removed before deleting the term.</string>
     <string name="term_name">Term Title:</string>
     <string name="term_name_hint">Name this term</string>
+    <string name="no_terms_yet">No terms have been added yet, add a term.</string>
 
     <!-- Copy for courses screens -->
     <string name="title_courses">Courses</string>

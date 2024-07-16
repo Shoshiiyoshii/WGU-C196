@@ -1,4 +1,4 @@
-package controller;
+package controllers.adapters;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,11 +17,11 @@ import java.util.List;
 import model.entities.Term;
 
 //a class to bind term data to the appropriate recycler.
-public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder> {
+public class TermRecyclerViewAdapter extends RecyclerView.Adapter<TermRecyclerViewAdapter.TermViewHolder> {
     private List<Term> terms = new ArrayList<>();
 
     //creates the layout in list_item for each item in the ArrayList or terms so that it can be displayed in
-    //the terms recycle view in the correct format
+    //the terms recycle Controllers in the correct format
     @NonNull
     @Override
     public TermViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -30,7 +30,7 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
         return new TermViewHolder(itemView);
     }
 
-    //sets each item in the recycler view to show the title of the term that is bound to it
+    //sets each item in the recycler Controllers to show the title of the term that is bound to it
     @Override
     public void onBindViewHolder(@NonNull TermViewHolder holder, int position) {
         // Bind the data to the TextView
@@ -48,11 +48,6 @@ public class TermAdapter extends RecyclerView.Adapter<TermAdapter.TermViewHolder
     public void setTerms(List<Term> terms) {
         this.terms = terms;
         notifyDataSetChanged();
-
-        //FIXME testing if terms are added
-        for (Term term : terms) {
-            Log.d("TermAdapter", "Term: " + term.getTitle() + ", Start Date: " + term.getStartDate() + ", End Date: " + term.getEndDate());
-        }
     }
 
     // ViewHolder class that holds references to the views within each item in the RecyclerView

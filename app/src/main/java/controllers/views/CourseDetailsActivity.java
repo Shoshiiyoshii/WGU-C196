@@ -1,4 +1,4 @@
-package view;
+package controllers.views;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,13 +12,13 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thomasmccue.c196pastudentapp.R;
 
-public class AssessmentDetailsActivity extends AppCompatActivity {
+public class CourseDetailsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_assessment_details);
+        setContentView(R.layout.activity_course_details);
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -27,20 +27,20 @@ public class AssessmentDetailsActivity extends AppCompatActivity {
         });
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.nav_assessments);
+        bottomNavigationView.setSelectedItemId(R.id.nav_courses);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_home) {
-                startActivity(new Intent(AssessmentDetailsActivity.this, MainActivity.class));
+                startActivity(new Intent(CourseDetailsActivity.this, MainActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.nav_terms) {
-                startActivity(new Intent(AssessmentDetailsActivity.this, TermActivity.class));
+                startActivity(new Intent(CourseDetailsActivity.this, TermActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.nav_courses) {
-                startActivity(new Intent(AssessmentDetailsActivity.this, CourseActivity.class));
+                startActivity(new Intent(CourseDetailsActivity.this, CourseActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.nav_assessments) {
-                startActivity(new Intent(AssessmentDetailsActivity.this, AssessmentActivity.class));
+                startActivity(new Intent(CourseDetailsActivity.this, AssessmentActivity.class));
                 return true;
             } else {
                 return false;

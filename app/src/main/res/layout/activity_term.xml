@@ -5,8 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="view.TermActivity">
-
+    tools:context="controllers.views.TermActivity">
 
     <TextView
         android:id="@+id/termTitle"
@@ -32,9 +31,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/termTitle" />
 
+    <TextView
+        android:id="@+id/noTermsText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/no_terms_yet"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/termsIntro"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewTerms"
-        android:layout_width="match_parent"
+        android:layout_width="405dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="3dp"
         android:layout_marginEnd="3dp"

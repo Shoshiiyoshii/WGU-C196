@@ -1,4 +1,4 @@
-package view;
+package controllers.views;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import androidx.room.Room;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thomasmccue.c196pastudentapp.R;
 import java.time.LocalDate;
@@ -50,8 +50,7 @@ public class AddTermActivity extends AppCompatActivity {
         termEndInput = findViewById(R.id.termEndDateInput);
         Button saveButton = findViewById(R.id.termSaveButton);
 
-        studentDatabase = Room.databaseBuilder(getApplicationContext(), StudentDatabase.class,
-                "student_database").build();
+        studentDatabase = StudentDatabase.getInstance(getApplicationContext());
 
         saveButton.setOnClickListener(v -> {
             String name = termTitleInput.getText().toString();
@@ -84,14 +83,6 @@ public class AddTermActivity extends AppCompatActivity {
             // Insert term into database
             new Thread(() -> {
                 studentDatabase.termDAO().insert(term);
-
-                //FIXME check that insert was successful
-                // Retrieve and log all terms
-                List<Term> allTerms = studentDatabase.termDAO().getAllTerms();
-                for (Term t : allTerms) {
-                    Log.d("AddTermActivity", "Term: " + t.getTitle() + ", Start Date: " + t.getStartDate() + ", End Date: " + t.getEndDate());
-                }
-
                 runOnUiThread(() -> {
                     startActivity(new Intent(AddTermActivity.this, TermActivity.class));
                     finish();
