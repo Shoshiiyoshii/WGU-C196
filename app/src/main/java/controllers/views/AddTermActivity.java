@@ -2,30 +2,42 @@ package controllers.views;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thomasmccue.c196pastudentapp.R;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
+import controllers.adapters.CheckBoxCourseRecyclerViewAdapter;
+
 import model.StudentDatabase;
+import model.entities.Course;
 import model.entities.Term;
 
 public class AddTermActivity extends AppCompatActivity {
     private EditText termTitleInput;
     private EditText termStartInput;
     private EditText termEndInput;
+
+    private RecyclerView courseRecyclerView;
+    private TextView emptyView;
     private StudentDatabase studentDatabase;
+    private CheckBoxCourseRecyclerViewAdapter checkListCourseAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,24 +45,33 @@ public class AddTermActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_term);
 
+        //allow for insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        //discard button listener
-        findViewById(R.id.termDiscardButton).setOnClickListener(view -> {
-            startActivity(new Intent(AddTermActivity.this, TermActivity.class));
-        });
+        //find recyclerView
+        courseRecyclerView = findViewById(R.id.recyclerViewCourses);
+        courseRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        checkListCourseAdapter = new CheckBoxCourseRecyclerViewAdapter();
+        courseRecyclerView.setAdapter(checkListCourseAdapter);
 
-        //new term data and save button listeners
+        // Initialize emptyView message
+        emptyView = findViewById(R.id.noCoursesText);
+
+
+        //get apps database instance
+        studentDatabase = StudentDatabase.getInstance(getApplicationContext());
+
+        courseListSetUp();
+
+        //find text input and save button
         termTitleInput = findViewById(R.id.termTitleInput);
         termStartInput = findViewById(R.id.termStartDateInput);
         termEndInput = findViewById(R.id.termEndDateInput);
         Button saveButton = findViewById(R.id.termSaveButton);
-
-        studentDatabase = StudentDatabase.getInstance(getApplicationContext());
 
         saveButton.setOnClickListener(v -> {
             String name = termTitleInput.getText().toString();
@@ -90,7 +111,6 @@ public class AddTermActivity extends AppCompatActivity {
             }).start();
         });
 
-
         //bottom navigation listeners
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.nav_terms);
@@ -113,4 +133,29 @@ public class AddTermActivity extends AppCompatActivity {
             }
         });
     }
+
+    public void termSaveButtonClicked(View view){
+
+    }
+
+    public void termDiscardButtonClicked(View view){
+        startActivity(new Intent(AddTermActivity.this, AssessmentActivity.class));
+    }
+
+    private void courseListSetUp() {
+        new Thread(() -> {
+            List<Course> courses = studentDatabase.courseDAO().getAllCourses();
+            runOnUiThread(() -> {
+                if (courses.isEmpty()) {
+                    courseRecyclerView.setVisibility(View.GONE);
+                    emptyView.setVisibility(View.VISIBLE);
+                } else {
+                    courseRecyclerView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+                    checkListCourseAdapter.setCourses(courses);
+                }
+            });
+        }).start();
+    }
+    
 }

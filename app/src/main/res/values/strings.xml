@@ -21,7 +21,7 @@
         courses must be removed before deleting the term.</string>
     <string name="term_name">Term Title:</string>
     <string name="term_name_hint">Name this term</string>
-    <string name="no_terms_yet">No terms have been added yet, add a term.</string>
+    <string name="no_terms_yet">No terms have been added yet</string>
 
     <!-- Copy for courses screens -->
     <string name="title_courses">Courses</string>
@@ -41,6 +41,7 @@
     <string name="instructor_name_hint"> First and Last Name</string>
     <string name="instructor_email_hint">instructoremail@email.edu</string>
     <string name="instructor_phone_hint">(xxx)xxx-xxxx</string>
+    <string name="no_courses_yet">No courses have been added yet</string>
 
     <!-- Copy for assessments screens -->
     <string name="title_assessments">Assessments</string>

@@ -24,6 +24,10 @@ public interface CourseDAO {
     @Query("SELECT * FROM courses WHERE course_id = :id")
     Course getCourseById(long id);
 
+    @Query("SELECT * FROM courses WHERE term_id = :termId")
+    List<Course> getCoursesForTerm(long termId);
+
+
     @Query("SELECT * FROM courses")
     List<Course> getAllCourses();
 }

@@ -60,6 +60,7 @@
         android:layout_height="wrap_content"
         android:text="@string/term_add"
         android:layout_margin="16dp"
+        android:onClick="termAddButtonClicked"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recyclerViewTerms" />
 

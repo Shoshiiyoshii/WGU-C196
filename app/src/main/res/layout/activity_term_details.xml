@@ -111,13 +111,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="8dp"
-            android:text="@string/edit_button" />
+            android:text="@string/edit_button"
+            android:onClick="termEditButtonClicked"/>
 
         <Button
             android:id="@+id/termDeleteButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/delete_button" />
+            android:text="@string/delete_button"
+            android:onClick="termDeleteButtonClicked"/>
     </LinearLayout>
 
     <!-- Bottom Navigation -->

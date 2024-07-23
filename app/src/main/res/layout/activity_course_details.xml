@@ -191,11 +191,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
+                    android:onClick="courseEditButtonClicked"
                     android:text="@string/edit_button" />
                 <Button
                     android:id="@+id/courseDeleteButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:onClick="courseDeleteButtonClicked"
                     android:text="@string/delete_button" />
             </LinearLayout>
         </LinearLayout>

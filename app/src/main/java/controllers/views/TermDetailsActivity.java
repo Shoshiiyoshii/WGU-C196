@@ -2,6 +2,7 @@ package controllers.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,5 +47,13 @@ public class TermDetailsActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    public void termEditButtonClicked(View view){
+
+    }
+
+    public void termDeleteButtonClicked(View view){
+        startActivity(new Intent(TermDetailsActivity.this, TermActivity.class));
     }
 }

@@ -2,6 +2,7 @@ package controllers.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,10 +27,6 @@ public class AssessmentActivity extends AppCompatActivity {
             return insets;
         });
 
-        findViewById(R.id.assessmentAddButton).setOnClickListener(view -> {
-            startActivity(new Intent(AssessmentActivity.this, AddAssessmentActivity.class));
-        });
-
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.nav_assessments);
 
@@ -51,5 +48,9 @@ public class AssessmentActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public void assessmentAddButtonClicked(View view){
+        startActivity(new Intent(AssessmentActivity.this, AddAssessmentActivity.class));
     }
 }

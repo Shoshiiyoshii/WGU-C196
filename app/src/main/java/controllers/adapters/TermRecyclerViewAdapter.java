@@ -51,7 +51,7 @@ public class TermRecyclerViewAdapter extends RecyclerView.Adapter<TermRecyclerVi
     }
 
     // ViewHolder class that holds references to the views within each item in the RecyclerView
-    public class TermViewHolder extends RecyclerView.ViewHolder {
+    public static class TermViewHolder extends RecyclerView.ViewHolder {
         private final TextView textViewName;
 
         public TermViewHolder(@NonNull View itemView) {

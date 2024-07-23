@@ -183,7 +183,7 @@
                 android:id="@+id/recyclerViewAssessments"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/list_item_checkable" />
+                tools:listitem="@layout/list_item" />
 
             <!-- Notes -->
             <TextView
@@ -215,12 +215,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="8dp"
-                    android:text="@string/save_button" />
+                    android:text="@string/save_button"
+                    android:onClick="courseSaveButtonClicked"/>
                 <Button
                     android:id="@+id/courseDiscardButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/discard_button" />
+                    android:text="@string/discard_button"
+                    android:onClick="courseDiscardButtonClicked"/>
             </LinearLayout>
 
         </LinearLayout>

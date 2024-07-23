@@ -2,6 +2,7 @@ package controllers.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,10 +27,6 @@ public class AddCourseActivity extends AppCompatActivity {
             return insets;
         });
 
-        findViewById(R.id.courseDiscardButton).setOnClickListener(view -> {
-            startActivity(new Intent(AddCourseActivity.this, CourseActivity.class));
-        });
-
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.nav_courses);
 
@@ -50,5 +47,13 @@ public class AddCourseActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    public void courseSaveButtonClicked(View view){
+
+    }
+
+    public void courseDiscardButtonClicked(View view){
+        startActivity(new Intent(AddCourseActivity.this, AssessmentActivity.class));
     }
 }

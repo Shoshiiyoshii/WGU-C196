@@ -2,6 +2,8 @@ package controllers.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -21,18 +23,6 @@ public class MainActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
-        });
-
-        findViewById(R.id.goToTerms).setOnClickListener(view -> {
-            startActivity(new Intent(MainActivity.this, TermActivity.class));
-        });
-
-        findViewById(R.id.goToCourses).setOnClickListener(view -> {
-            startActivity(new Intent(MainActivity.this, CourseActivity.class));
-        });
-
-        findViewById(R.id.goToAssessments).setOnClickListener(view -> {
-            startActivity(new Intent(MainActivity.this, AssessmentActivity.class));
         });
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -55,6 +45,17 @@ public class MainActivity extends AppCompatActivity {
                     return false;
             }
         });
+    }
 
+    public void mainGoToTermsButtonClicked(View view){
+        startActivity(new Intent(MainActivity.this, TermActivity.class));
+    }
+
+    public void mainGoToCoursesButtonClicked(View view){
+        startActivity(new Intent(MainActivity.this, CourseActivity.class));
+    }
+
+    public void mainGoToAssessmentsButtonClicked(View view){
+        startActivity(new Intent(MainActivity.this, AssessmentActivity.class));
     }
 }

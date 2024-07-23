@@ -41,17 +41,13 @@ public class TermActivity extends AppCompatActivity {
             return insets;
         });
 
-        findViewById(R.id.termAddButton).setOnClickListener(view -> {
-            startActivity(new Intent(TermActivity.this, AddTermActivity.class));
-        });
-
         // Set up RecyclerView and Adapter
         termsRecyclerView = findViewById(R.id.recyclerViewTerms);
         termsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         termRecyclerViewAdapter = new TermRecyclerViewAdapter();
         termsRecyclerView.setAdapter(termRecyclerViewAdapter);
 
-        // Initialize empty Controllers
+        // Initialize emptyView message
         emptyView = findViewById(R.id.noTermsText);
 
         // Get instance of the database
@@ -79,6 +75,10 @@ public class TermActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    public void termAddButtonClicked(View view){
+        startActivity(new Intent(TermActivity.this, AddTermActivity.class));
     }
 
     private void loadTerms() {

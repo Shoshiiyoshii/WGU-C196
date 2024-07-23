@@ -138,13 +138,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/edit_button"
-            android:layout_marginEnd="8dp" />
+            android:layout_marginEnd="8dp"
+            android:onClick="assessmentEditButtonClicked"/>
 
         <Button
             android:id="@+id/assessmentDeleteButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/delete_button" />
+            android:text="@string/delete_button"
+            android:onClick="assessmentDeleteButtonClicked"/>
+
     </LinearLayout>
 
     <!-- Bottom Navigation -->
