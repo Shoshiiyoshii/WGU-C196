@@ -22,10 +22,10 @@ public interface CourseDAO {
     void delete(Course course);
 
     @Query("SELECT * FROM courses WHERE course_id = :id")
-    Course getCourseById(long id);
+    Course getCourseById(int id);
 
     @Query("SELECT * FROM courses WHERE term_id = :termId")
-    List<Course> getCoursesForTerm(long termId);
+    List<Course> getCoursesForTerm(int termId);
 
 
     @Query("SELECT * FROM courses")

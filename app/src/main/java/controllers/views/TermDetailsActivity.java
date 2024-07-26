@@ -1,25 +1,88 @@
 package controllers.views;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thomasmccue.c196pastudentapp.R;
 
+import java.lang.ref.WeakReference;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+
+import controllers.adapters.ListCourseRecyclerViewAdapter;
+import controllers.executors.GetTermDetails;
+import controllers.executors.TermDetails;
+import model.DAO.CourseDAO;
+import model.StudentDatabase;
+import model.entities.Course;
+import model.entities.Term;
+import model.DAO.TermDAO;
+
 public class TermDetailsActivity extends AppCompatActivity {
+    private TextView title;
+    private TextView termStart;
+    private TextView termEnd;
+    private RecyclerView courseRecycler;
+    private TextView emptyView;
+
+    private TermDAO termDAO;
+    private CourseDAO courseDAO;
+    private ListCourseRecyclerViewAdapter courseAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_term_details);
+
+        StudentDatabase studentDatabase = StudentDatabase.getInstance(getApplicationContext());
+        termDAO = studentDatabase.termDAO();
+        courseDAO = studentDatabase.courseDAO();
+
+        title = findViewById(R.id.termTitle);
+        termStart = findViewById(R.id.termStartDate);
+        termEnd = findViewById(R.id.termEndDate);
+        courseRecycler = findViewById(R.id.recyclerViewCourses);
+        emptyView = findViewById(R.id.noCoursesText);
+
+        courseAdapter = new ListCourseRecyclerViewAdapter();
+        courseRecycler.setLayoutManager(new LinearLayoutManager(this));
+        courseRecycler.setAdapter(courseAdapter);
+
+        // Retrieve the term ID from the intent
+        int termId = getIntent().getIntExtra("TERM_ID", -1);
+
+        if (termId != -1) {
+            ExecutorService executor = Executors.newSingleThreadExecutor();
+            Future<TermDetails> future = executor.submit(new GetTermDetails(termDAO, termId, courseDAO));
+            try {
+                // This will block until the task completes and returns the result
+                TermDetails termDetails = future.get();
+                // Update the UI on the main thread
+                runOnUiThread(() -> displayTermDetails(termDetails));
+            } catch (InterruptedException | ExecutionException e) {
+                e.printStackTrace();
+            } finally {
+                executor.shutdown();
+            }
+        }
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -49,11 +112,35 @@ public class TermDetailsActivity extends AppCompatActivity {
         });
     }
 
-    public void termEditButtonClicked(View view){
+    public void termEditButtonClicked(View view) {
 
     }
 
-    public void termDeleteButtonClicked(View view){
+    public void termDeleteButtonClicked(View view) {
         startActivity(new Intent(TermDetailsActivity.this, TermActivity.class));
+    }
+
+    public void displayTermDetails(TermDetails termDetails){
+        courseAdapter.setCourses(termDetails.getCourses());
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+
+        LocalDate startDate = termDetails.getTerm().getStartDate();
+        String startString = startDate.format(formatter);
+
+        LocalDate endDate = termDetails.getTerm().getEndDate();
+        String endString = endDate.format(formatter);
+
+        title.setText(termDetails.getTerm().getTitle());
+        termStart.setText(startString);
+        termEnd.setText(endString);
+
+        if (termDetails.getCourses().isEmpty()) {
+            courseRecycler.setVisibility(View.GONE);
+            emptyView.setVisibility(View.VISIBLE);
+        } else {
+            courseRecycler.setVisibility(View.VISIBLE);
+            emptyView.setVisibility(View.GONE);
+        }
     }
 }

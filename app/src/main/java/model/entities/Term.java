@@ -13,7 +13,7 @@ import java.time.LocalDate;
 public class Term {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "term_id")
-    private long termId;
+    private int termId;
 
     @ColumnInfo(name = "title")
     private String title;
@@ -30,7 +30,7 @@ public class Term {
         this.endDate = endDate;
     }
     //accessors
-    public long getTermId() {
+    public int getTermId() {
         return termId;
     }
 
@@ -48,7 +48,7 @@ public class Term {
 
     //mutators
 
-    public void setTermId(long termId) {
+    public void setTermId(int termId) {
         this.termId = termId;
     }
 

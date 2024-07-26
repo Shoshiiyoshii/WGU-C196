@@ -23,7 +23,7 @@ public interface AssessmentDAO {
     void delete(Assessment assessment);
 
     @Query("SELECT * FROM assessments WHERE assessment_id = :id")
-    Assessment getAssessmentById(long id);
+    Assessment getAssessmentById(int id);
 
     @Query("SELECT * FROM assessments")
     List<Assessment> getAllAssessments();

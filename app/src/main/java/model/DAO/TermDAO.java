@@ -24,7 +24,7 @@ public interface TermDAO {
     void delete(Term term);
 
     @Query("SELECT * FROM terms WHERE term_id = :id")
-    Term getTermById(long id);
+    Term getTermById(int id);
 
     @Query("SELECT * FROM terms")
     List<Term> getAllTerms();

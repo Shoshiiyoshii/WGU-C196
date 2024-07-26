@@ -1,5 +1,6 @@
 package controllers.adapters;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.thomasmccue.c196pastudentapp.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import controllers.views.TermDetailsActivity;
 import model.entities.Term;
 
 //a class to bind term data to the appropriate recycler.
@@ -33,10 +35,18 @@ public class TermRecyclerViewAdapter extends RecyclerView.Adapter<TermRecyclerVi
     //sets each item in the recycler Controllers to show the title of the term that is bound to it
     @Override
     public void onBindViewHolder(@NonNull TermViewHolder holder, int position) {
-        // Bind the data to the TextView
         Term currentTerm = terms.get(position);
         holder.textViewName.setText(currentTerm.getTitle());
+
+        holder.itemView.setOnClickListener(v -> {
+            Intent intent = new Intent(v.getContext(), TermDetailsActivity.class);
+            int termId = currentTerm.getTermId();
+
+            intent.putExtra("TERM_ID", termId);
+            v.getContext().startActivity(intent);
+        });
     }
+
 
     //gets how many terms are in the ArrayList
     @Override

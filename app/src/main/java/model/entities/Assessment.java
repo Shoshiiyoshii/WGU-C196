@@ -16,10 +16,10 @@ import java.time.LocalDate;
 public class Assessment {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "assessment_id")
-    private long assessmentId;
+    private int assessmentId;
 
     @ColumnInfo(name = "course_id")
-    private long courseId;
+    private int courseId;
 
     @ColumnInfo(name = "assessment_name")
     private String assessmentName;
@@ -33,7 +33,7 @@ public class Assessment {
     @ColumnInfo(name = "assessment_type")
     private String assessmentType;
 
-    public Assessment(long courseId, String assessmentName, LocalDate assessmentStartDate,
+    public Assessment(int courseId, String assessmentName, LocalDate assessmentStartDate,
                       LocalDate assessmentDueDate, String assessmentType){
         this.courseId = courseId;
         this.assessmentName = assessmentName;
@@ -43,11 +43,11 @@ public class Assessment {
     }
 
     //accessors
-    public long getAssessmentId() {
+    public int getAssessmentId() {
         return assessmentId;
     }
 
-    public long getCourseId() {
+    public int getCourseId() {
         return courseId;
     }
 
@@ -69,11 +69,11 @@ public class Assessment {
 
     //mutators
 
-    public void setAssessmentId(long assessmentId) {
+    public void setAssessmentId (int assessmentId) {
         this.assessmentId = assessmentId;
     }
 
-    public void setCourseId(long courseId) {
+    public void setCourseId (int courseId) {
         this.courseId = courseId;
     }
 

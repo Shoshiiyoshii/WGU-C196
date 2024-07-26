@@ -54,6 +54,7 @@
     <string name="performance">Performance</string>
     <string name="assessment_name">Assessment Name:</string>
     <string name="assessment_name_hint">Name this assessment</string>
+    <string name="no_assessments_yet">No assessments have been added yet</string>
 
 
     <!-- Copy for the details screens -->

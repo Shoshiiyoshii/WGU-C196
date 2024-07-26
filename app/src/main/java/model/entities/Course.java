@@ -21,13 +21,13 @@ import java.time.LocalDate;
 public class Course {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "course_id")
-    private long courseId;
+    private int courseId;
 
     @ColumnInfo(name = "term_id")
-    private long termId;
+    private int termId;
 
     @ColumnInfo(name = "instructor_id")
-    private long instructorId;
+    private int instructorId;
 
     @ColumnInfo(name = "course_name")
     private String courseName;
@@ -41,7 +41,7 @@ public class Course {
     @ColumnInfo(name = "status")
     private String status;
 
-    public Course(long termId, long instructorId, String courseName, LocalDate startDate,
+    public Course(int termId, int instructorId, String courseName, LocalDate startDate,
                   LocalDate endDate, String status){
         this.termId = termId;
         this.instructorId = instructorId;
@@ -52,15 +52,15 @@ public class Course {
     }
 
     //accessors
-    public long getCourseId() {
+    public int getCourseId() {
         return courseId;
     }
 
-    public long getTermId() {
+    public int getTermId() {
         return termId;
     }
 
-    public long getInstructorId() {
+    public int getInstructorId() {
         return instructorId;
     }
 
@@ -82,15 +82,15 @@ public class Course {
 
     //mutators
 
-    public void setCourseId(long courseId) {
+    public void setCourseId(int courseId) {
         this.courseId = courseId;
     }
 
-    public void setTermId(long termId) {
+    public void setTermId(int termId) {
         this.termId = termId;
     }
 
-    public void setInstructorId(long instructorId) {
+    public void setInstructorId(int instructorId) {
         this.instructorId = instructorId;
     }
 

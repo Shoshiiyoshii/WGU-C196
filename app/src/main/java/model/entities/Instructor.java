@@ -10,7 +10,7 @@ public class Instructor {
 
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "instructor_id")
-    private long instructorId;
+    private int instructorId;
 
     @ColumnInfo(name = "instructor_name")
     private String instructorName;
@@ -28,7 +28,7 @@ public class Instructor {
     }
 
     //accessors
-    public long getInstructorId() {
+    public int getInstructorId() {
         return instructorId;
     }
 
@@ -46,7 +46,7 @@ public class Instructor {
 
     //mutators
 
-    public void setInstructorId(long instructorId) {
+    public void setInstructorId(int instructorId) {
         this.instructorId = instructorId;
     }
 

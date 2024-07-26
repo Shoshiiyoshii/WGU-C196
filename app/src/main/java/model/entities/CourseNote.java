@@ -16,25 +16,25 @@ import java.time.LocalDate;
 public class CourseNote {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "note_id")
-    private long noteId;
+    private int noteId;
 
     @ColumnInfo(name = "course_id")
-    private long courseId;
+    private int courseId;
 
     @ColumnInfo(name = "note_details")
     private String noteDetails;
 
-    public CourseNote(long courseId, String noteDetails){
+    public CourseNote(int courseId, String noteDetails){
         this.courseId = courseId;
         this.noteDetails = noteDetails;
     }
 
     //accessors
-    public long getNoteId() {
+    public int getNoteId() {
         return noteId;
     }
 
-    public long getCourseId() {
+    public int getCourseId() {
         return courseId;
     }
 
@@ -44,11 +44,11 @@ public class CourseNote {
 
     //mutators
 
-    public void setNoteId(long noteId) {
+    public void setNoteId(int noteId) {
         this.noteId = noteId;
     }
 
-    public void setCourseId(long courseId) {
+    public void setCourseId(int courseId) {
         this.courseId = courseId;
     }
 

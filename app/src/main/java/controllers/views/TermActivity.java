@@ -79,6 +79,7 @@ public class TermActivity extends AppCompatActivity {
 
     public void termAddButtonClicked(View view){
         startActivity(new Intent(TermActivity.this, AddTermActivity.class));
+
     }
 
     private void loadTerms() {

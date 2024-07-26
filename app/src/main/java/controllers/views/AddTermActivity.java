@@ -3,7 +3,6 @@ package controllers.views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -22,6 +21,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Set;
 
 import controllers.adapters.CheckBoxCourseRecyclerViewAdapter;
 
@@ -71,45 +71,7 @@ public class AddTermActivity extends AppCompatActivity {
         termTitleInput = findViewById(R.id.termTitleInput);
         termStartInput = findViewById(R.id.termStartDateInput);
         termEndInput = findViewById(R.id.termEndDateInput);
-        Button saveButton = findViewById(R.id.termSaveButton);
 
-        saveButton.setOnClickListener(v -> {
-            String name = termTitleInput.getText().toString();
-            String startDateString = termStartInput.getText().toString();
-            String endDateString = termEndInput.getText().toString();
-
-            // Validate and parse start date FIXME validate dates are after one another and valid
-            LocalDate startDate = null;
-            try {
-                startDate = LocalDate.parse(startDateString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-            } catch (DateTimeParseException e) {
-                // Handle invalid start date format
-                termStartInput.setError("Invalid date format. Please use MM/DD/YYYY.");
-                return; // Exit the click listener
-            }
-
-            // Validate and parse end date
-            LocalDate endDate = null;
-            try {
-                endDate = LocalDate.parse(endDateString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
-            } catch (DateTimeParseException e) {
-                // Handle invalid end date format
-                termEndInput.setError("Invalid date format. Please use MM/DD/YYYY.");
-                return; // Exit the click listener
-            }
-
-            // Create a new Term object
-            Term term = new Term(name, startDate, endDate);
-
-            // Insert term into database
-            new Thread(() -> {
-                studentDatabase.termDAO().insert(term);
-                runOnUiThread(() -> {
-                    startActivity(new Intent(AddTermActivity.this, TermActivity.class));
-                    finish();
-                });
-            }).start();
-        });
 
         //bottom navigation listeners
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -134,11 +96,58 @@ public class AddTermActivity extends AppCompatActivity {
         });
     }
 
-    public void termSaveButtonClicked(View view){
+    public void termSaveButtonClicked(View view) {
+        String name = termTitleInput.getText().toString();
+        String startDateString = termStartInput.getText().toString();
+        String endDateString = termEndInput.getText().toString();
 
+        // Validate and parse start date
+        LocalDate startDate = null;
+        try {
+            startDate = LocalDate.parse(startDateString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        } catch (DateTimeParseException e) {
+            // Handle invalid start date format
+            termStartInput.setError("Invalid date format. Please use MM/DD/YYYY.");
+            return; // Exit the click listener
+        }
+
+        // Validate and parse end date
+        LocalDate endDate = null;
+        try {
+            endDate = LocalDate.parse(endDateString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
+        } catch (DateTimeParseException e) {
+            // Handle invalid end date format
+            termEndInput.setError("Invalid date format. Please use MM/DD/YYYY.");
+            return; // Exit the click listener
+        }
+
+        //Validate dates are after one another and valid
+        if (startDate.isAfter(endDate)) {
+            termEndInput.setError("End date must be after start date.");
+            return; // Exit the click listener
+        }
+
+        // Create a new Term object
+        Term term = new Term(name, startDate, endDate);
+
+        // Insert term into database, and update associated courses
+        new Thread(() -> {
+            studentDatabase.termDAO().insert(term);
+
+            Set<Course> selectedCourses = checkListCourseAdapter.getSelectedCourses();
+            for (Course course : selectedCourses) {
+                course.setTermId(term.getTermId());
+                studentDatabase.courseDAO().update(course);
+            }
+
+            runOnUiThread(() -> {
+                startActivity(new Intent(AddTermActivity.this, TermActivity.class));
+                finish();
+            });
+        }).start();
     }
 
-    public void termDiscardButtonClicked(View view){
+    public void termDiscardButtonClicked(View view) {
         startActivity(new Intent(AddTermActivity.this, AssessmentActivity.class));
     }
 
@@ -157,5 +166,4 @@ public class AddTermActivity extends AppCompatActivity {
             });
         }).start();
     }
-    
 }

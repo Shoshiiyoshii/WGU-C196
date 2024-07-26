@@ -23,7 +23,7 @@ public interface CourseNoteDAO {
     void delete(CourseNote courseNote);
 
     @Query("SELECT * FROM course_notes WHERE note_id = :id")
-    CourseNote getCourseNoteById(long id);
+    CourseNote getCourseNoteById(int id);
 
     @Query("SELECT * FROM course_notes")
     List<CourseNote> getAllCourseNotes();
