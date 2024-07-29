@@ -36,7 +36,7 @@ public class AddCourseActivity extends AppCompatActivity {
     private EditText courseStartDateInput;
     private EditText courseEndDateInput;
     
-    private Spinner  courseStatusSpinner;
+    private Spinner courseStatusSpinner;
     private String status;
     
     private EditText instructorNameInput;

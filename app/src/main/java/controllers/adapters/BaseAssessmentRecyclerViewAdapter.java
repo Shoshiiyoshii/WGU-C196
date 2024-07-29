@@ -20,21 +20,24 @@ public abstract class BaseAssessmentRecyclerViewAdapter extends RecyclerView.Ada
 
     @NonNull
     @Override
-    public BaseAssessmentRecyclerViewAdapter.AssessmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public BaseAssessmentRecyclerViewAdapter.AssessmentViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                                                     int viewType) {
         // Inflate the layout defined in list_item.xml
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item, parent, false);
         return new BaseAssessmentRecyclerViewAdapter.AssessmentViewHolder(itemView);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull BaseAssessmentRecyclerViewAdapter.AssessmentViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull BaseAssessmentRecyclerViewAdapter.AssessmentViewHolder holder,
+                                 int position) {
         // Bind the data to the TextView
         Assessment currentAssessment = assessments.get(position);
         holder.textViewName.setText(currentAssessment.getAssessmentName());
         bindAssessment(holder, currentAssessment);
     }
 
-    protected abstract void bindAssessment(BaseAssessmentRecyclerViewAdapter.AssessmentViewHolder holder, Assessment assessment);
+    protected abstract void bindAssessment(BaseAssessmentRecyclerViewAdapter.AssessmentViewHolder holder,
+                                           Assessment assessment);
 
     @Override
     public int getItemCount() {
@@ -49,7 +52,7 @@ public abstract class BaseAssessmentRecyclerViewAdapter extends RecyclerView.Ada
 
     // ViewHolder class that holds references to the views within each item in the RecyclerView
     public static class AssessmentViewHolder extends RecyclerView.ViewHolder {
-        private final TextView textViewName;
+        final TextView textViewName;
 
         public AssessmentViewHolder(@NonNull View itemView) {
             super(itemView);

@@ -49,6 +49,7 @@
         <item>Completed</item>
         <item>Dropped</item>
     </string-array>
+    <string name="delete_error_course">Please remove all assessments before deleting a course</string>
 
     <!-- Copy for assessments screens -->
     <string name="title_assessments">Assessments</string>

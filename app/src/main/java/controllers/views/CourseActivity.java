@@ -61,7 +61,7 @@ public class CourseActivity extends AppCompatActivity {
             if (item.getItemId() == R.id.nav_home) {
                 startActivity(new Intent(CourseActivity.this, MainActivity.class));
                 return true;
-            } else if (item.getItemId() == R.id.nav_courses) {
+            } else if (item.getItemId() == R.id.nav_courses) { //FIXME bug when trying to go to terms from courses?
                 startActivity(new Intent(CourseActivity.this, TermActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.nav_courses) {

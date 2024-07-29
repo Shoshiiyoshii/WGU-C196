@@ -49,7 +49,7 @@ public abstract class BaseCourseRecyclerViewAdapter extends RecyclerView.Adapter
 
     // ViewHolder class that holds references to the views within each item in the RecyclerView
     public static class CourseViewHolder extends RecyclerView.ViewHolder {
-        private final TextView textViewName;
+        final TextView textViewName;
 
         public CourseViewHolder(@NonNull View itemView) {
             super(itemView);

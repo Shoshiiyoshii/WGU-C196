@@ -153,11 +153,24 @@
 
             <!-- Assessments -->
             <TextView
+                android:id="@+id/associatedAssessments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/title_assessments"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:paddingTop="8dp" />
+
+            <TextView
+                android:id="@+id/noAssessmentsText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/no_assessments_yet"
+                android:visibility="gone"
+                app:layout_constraintTop_toBottomOf="@+id/associatedAssessments"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewAssessments"
                 android:layout_width="match_parent"
@@ -175,9 +188,21 @@
                 android:id="@+id/courseNote"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="I'm a course note ahhhhhhhhhhhhhhhh"
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:paddingTop="8dp" />
+
+            <TextView
+                android:id="@+id/deleteError"
+                android:layout_margin="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="@string/delete_error_course"
+                android:visibility="gone"
+                android:textColor="@color/colorError"
+                app:layout_constraintTop_toBottomOf="@+id/courseNote"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
 
             <!-- Buttons -->
             <LinearLayout
