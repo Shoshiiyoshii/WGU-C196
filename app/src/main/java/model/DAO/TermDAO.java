@@ -14,7 +14,7 @@ import model.entities.Term;
 public interface TermDAO {
 
     @Insert
-    void insert(Term term);
+    long insert(Term term);
 
     @Update
     void update(Term term);

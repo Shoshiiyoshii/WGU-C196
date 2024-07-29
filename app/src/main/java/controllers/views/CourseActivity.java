@@ -16,9 +16,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thomasmccue.c196pastudentapp.R;
 
+import java.util.List;
+
 import controllers.adapters.ListCourseRecyclerViewAdapter;
-import controllers.adapters.TermRecyclerViewAdapter;
 import model.StudentDatabase;
+import model.entities.Course;
 
 public class CourseActivity extends AppCompatActivity {
     private RecyclerView coursesRecyclerView;
@@ -43,7 +45,7 @@ public class CourseActivity extends AppCompatActivity {
 
         // Get instance of the database
         studentDatabase = StudentDatabase.getInstance(getApplicationContext());
-        // Load terms from database and update RecyclerView
+        // Load courses from database and update RecyclerView
         loadCourses();
         
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -59,7 +61,7 @@ public class CourseActivity extends AppCompatActivity {
             if (item.getItemId() == R.id.nav_home) {
                 startActivity(new Intent(CourseActivity.this, MainActivity.class));
                 return true;
-            } else if (item.getItemId() == R.id.nav_terms) {
+            } else if (item.getItemId() == R.id.nav_courses) {
                 startActivity(new Intent(CourseActivity.this, TermActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.nav_courses) {
@@ -75,6 +77,19 @@ public class CourseActivity extends AppCompatActivity {
     }
 
     private void loadCourses() {
+        new Thread(() -> {
+            List<Course> courses = studentDatabase.courseDAO().getAllCourses();
+            runOnUiThread(() -> {
+                if (courses.isEmpty()) {
+                    coursesRecyclerView.setVisibility(View.GONE);
+                    emptyView.setVisibility(View.VISIBLE);
+                } else {
+                    coursesRecyclerView.setVisibility(View.VISIBLE);
+                    emptyView.setVisibility(View.GONE);
+                    coursesRecyclerViewAdapter.setCourses(courses);
+                }
+            });
+        }).start();
     }
 
     public void courseAddButtonClicked(View view){

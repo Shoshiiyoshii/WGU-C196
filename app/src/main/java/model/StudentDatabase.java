@@ -10,17 +10,14 @@ import androidx.room.TypeConverters;
 import model.DAO.*;
 import model.entities.*;
 
-@Database(entities = {Term.class, Instructor.class, Course.class,
-        CourseNote.class, Assessment.class}, version = 1, exportSchema = false)
+@Database(entities = {Term.class, Course.class, Assessment.class}, version = 2, exportSchema = false)
 @TypeConverters(MyTypeConverters.class)
 public abstract class StudentDatabase extends RoomDatabase {
 
     private static final String DATABASE_NAME = "student_database.db";
 
     public abstract TermDAO termDAO();
-    public abstract InstructorDAO instructorDAO();
     public abstract CourseDAO courseDAO();
-    public abstract CourseNoteDAO courseNoteDAO();
     public abstract AssessmentDAO assessmentDAO();
 
     private static volatile StudentDatabase INSTANCE;

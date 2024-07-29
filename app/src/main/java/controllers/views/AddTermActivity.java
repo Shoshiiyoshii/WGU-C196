@@ -52,26 +52,21 @@ public class AddTermActivity extends AppCompatActivity {
             return insets;
         });
 
-        //find recyclerView
+        //find and set up recyclerView
+        emptyView = findViewById(R.id.noCoursesText);
         courseRecyclerView = findViewById(R.id.recyclerViewCourses);
         courseRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         checkListCourseAdapter = new CheckBoxCourseRecyclerViewAdapter();
         courseRecyclerView.setAdapter(checkListCourseAdapter);
-
-        // Initialize emptyView message
-        emptyView = findViewById(R.id.noCoursesText);
-
+        courseListSetUp();
 
         //get apps database instance
         studentDatabase = StudentDatabase.getInstance(getApplicationContext());
-
-        courseListSetUp();
 
         //find text input and save button
         termTitleInput = findViewById(R.id.termTitleInput);
         termStartInput = findViewById(R.id.termStartDateInput);
         termEndInput = findViewById(R.id.termEndDateInput);
-
 
         //bottom navigation listeners
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
@@ -132,11 +127,16 @@ public class AddTermActivity extends AppCompatActivity {
 
         // Insert term into database, and update associated courses
         new Thread(() -> {
-            studentDatabase.termDAO().insert(term);
+            // Insert term into database and get the generated term ID
+            long termIdLong = studentDatabase.termDAO().insert(term);
 
+            // Cast termIdLong to int
+            int termId = (int) termIdLong;
+
+            // Update associated courses with the new term ID
             Set<Course> selectedCourses = checkListCourseAdapter.getSelectedCourses();
             for (Course course : selectedCourses) {
-                course.setTermId(term.getTermId());
+                course.setTermId(termId);
                 studentDatabase.courseDAO().update(course);
             }
 

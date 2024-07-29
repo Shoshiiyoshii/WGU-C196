@@ -41,10 +41,12 @@ public class TermDetailsActivity extends AppCompatActivity {
     private TextView termEnd;
     private RecyclerView courseRecycler;
     private TextView emptyView;
+    private TextView deleteError;
 
     private TermDAO termDAO;
     private CourseDAO courseDAO;
     private ListCourseRecyclerViewAdapter courseAdapter;
+    private TermDetails termDetails;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,7 @@ public class TermDetailsActivity extends AppCompatActivity {
         termEnd = findViewById(R.id.termEndDate);
         courseRecycler = findViewById(R.id.recyclerViewCourses);
         emptyView = findViewById(R.id.noCoursesText);
+        deleteError = findViewById(R.id.deleteError);
 
         courseAdapter = new ListCourseRecyclerViewAdapter();
         courseRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -117,10 +120,28 @@ public class TermDetailsActivity extends AppCompatActivity {
     }
 
     public void termDeleteButtonClicked(View view) {
-        startActivity(new Intent(TermDetailsActivity.this, TermActivity.class));
+        // Execute database operations on a background thread
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            // Check if there are any associated courses
+            List<Course> courses = courseDAO.getCoursesForTerm(termDetails.getTerm().getTermId());
+            if (courses.isEmpty()) {
+                // No associated courses, delete the term
+                termDAO.delete(termDetails.getTerm());
+                runOnUiThread(() -> {
+                    // Navigate back to TermActivity on the main thread
+                    startActivity(new Intent(TermDetailsActivity.this, TermActivity.class));
+                    finish();
+                });
+            } else {
+                // There are associated courses, show error message
+                runOnUiThread(() -> deleteError.setVisibility(View.VISIBLE));
+            }
+        });
     }
 
     public void displayTermDetails(TermDetails termDetails){
+        this.termDetails = termDetails;
         courseAdapter.setCourses(termDetails.getCourses());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");

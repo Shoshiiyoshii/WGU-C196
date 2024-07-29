@@ -104,6 +104,18 @@
         app:layout_constraintTop_toBottomOf="@id/termCoursesLabel"
         tools:listitem="@layout/list_item" />
 
+    <TextView
+        android:id="@+id/deleteError"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/delete_error_term"
+        android:visibility="gone"
+        android:textColor="@color/colorError"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewCourses"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <!-- Edit and Delete Buttons -->
     <LinearLayout
         android:id="@+id/buttonsLayout"

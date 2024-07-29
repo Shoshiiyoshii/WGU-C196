@@ -5,29 +5,20 @@ import androidx.room.Index;
 import androidx.room.PrimaryKey;
 import androidx.room.ForeignKey;
 import androidx.room.ColumnInfo;
-
-
 import java.time.LocalDate;
 
-@Entity(tableName = "courses", indices = {@Index("term_id"), @Index("instructor_id")},
+@Entity(tableName = "courses", indices = {@Index("term_id")},
         foreignKeys = { @ForeignKey(entity = Term.class,
-                                    parentColumns = "term_id",
-                                    childColumns = "term_id",
-                                    onDelete = ForeignKey.RESTRICT),
-                        @ForeignKey(entity = Instructor.class,
-                                    parentColumns = "instructor_id",
-                                    childColumns = "instructor_id",
-                                    onDelete = ForeignKey.CASCADE)})
+                parentColumns = "term_id",
+                childColumns = "term_id",
+                onDelete = ForeignKey.RESTRICT)})
 public class Course {
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "course_id")
     private int courseId;
 
     @ColumnInfo(name = "term_id")
-    private int termId;
-
-    @ColumnInfo(name = "instructor_id")
-    private int instructorId;
+    private Integer termId;
 
     @ColumnInfo(name = "course_name")
     private String courseName;
@@ -38,17 +29,33 @@ public class Course {
     @ColumnInfo(name = "end_date")
     private LocalDate endDate;
 
+    @ColumnInfo(name = "instructor_name")
+    private String instructorName;
+
+    @ColumnInfo(name = "instructor_email")
+    private String instructorEmail;
+
+    @ColumnInfo(name = "instructor_phone")
+    private String instructorPhone;
+
     @ColumnInfo(name = "status")
     private String status;
 
-    public Course(int termId, int instructorId, String courseName, LocalDate startDate,
-                  LocalDate endDate, String status){
+    @ColumnInfo(name = "course_note")
+    private String courseNote;
+
+    public Course(Integer termId, String courseName, LocalDate startDate,
+                  LocalDate endDate, String instructorName, String instructorEmail,
+                  String instructorPhone, String status, String courseNote){
         this.termId = termId;
-        this.instructorId = instructorId;
         this.courseName = courseName;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.instructorName = instructorName;
+        this.instructorEmail = instructorEmail;
+        this.instructorPhone = instructorPhone;
         this.status = status;
+        this.courseNote = courseNote;
     }
 
     //accessors
@@ -56,20 +63,12 @@ public class Course {
         return courseId;
     }
 
-    public int getTermId() {
+    public Integer getTermId() {
         return termId;
-    }
-
-    public int getInstructorId() {
-        return instructorId;
     }
 
     public String getCourseName() {
         return courseName;
-    }
-
-    public String getStatus() {
-        return status;
     }
 
     public LocalDate getStartDate() {
@@ -80,26 +79,31 @@ public class Course {
         return endDate;
     }
 
+    public String getInstructorName(){ return instructorName; }
+
+    public String getInstructorEmail() { return instructorEmail; }
+
+    public String getInstructorPhone() { return instructorPhone; }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getCourseNote() { return courseNote; }
+
+
     //mutators
 
     public void setCourseId(int courseId) {
         this.courseId = courseId;
     }
 
-    public void setTermId(int termId) {
+    public void setTermId(Integer termId) {
         this.termId = termId;
-    }
-
-    public void setInstructorId(int instructorId) {
-        this.instructorId = instructorId;
     }
 
     public void setCourseName(String courseName) {
         this.courseName = courseName;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public void setStartDate(LocalDate startDate) {
@@ -109,4 +113,17 @@ public class Course {
     public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
+
+    public void setInstructorPhone(String instructorPhone) { this.instructorPhone = instructorPhone;}
+
+    public void setInstructorName(String instructorName) { this.instructorName = instructorName; }
+
+    public void setInstructorEmail(String instructorEmail) { this.instructorEmail = instructorEmail; }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setCourseNote(String courseNote) { this.courseNote = courseNote; }
+
 }
