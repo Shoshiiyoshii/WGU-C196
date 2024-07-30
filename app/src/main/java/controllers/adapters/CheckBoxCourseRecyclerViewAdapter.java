@@ -6,6 +6,7 @@ import android.widget.CheckBox;
 import com.thomasmccue.c196pastudentapp.R;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import model.entities.Course;
@@ -26,6 +27,17 @@ public class CheckBoxCourseRecyclerViewAdapter extends BaseCourseRecyclerViewAda
                 selectedCourses.remove(course);
             }
         });
+    }
+
+    public void setSelectedCourses(List<Course> courses, Set<Integer> associatedCourseIds) {
+        this.courses = courses;
+        selectedCourses.clear();
+        for (Course course : courses) {
+            if (associatedCourseIds.contains(course.getCourseId())) {
+                selectedCourses.add(course);
+            }
+        }
+        notifyDataSetChanged();
     }
 
     public Set<Course> getSelectedCourses() {

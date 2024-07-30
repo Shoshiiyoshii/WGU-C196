@@ -40,6 +40,15 @@
             android:name="controllers.views.CourseActivity"
             android:exported="false" />
         <activity
+            android:name="controllers.views.EditTermActivity"
+            android:exported="false" />
+        <activity
+            android:name="controllers.views.EditCourseActivity"
+            android:exported="false" />
+        <activity
+            android:name="controllers.views.EditAssessmentActivity"
+            android:exported="false" />
+        <activity
             android:name="controllers.views.MainActivity"
             android:exported="true" >
             <intent-filter>

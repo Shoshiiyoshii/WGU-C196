@@ -20,6 +20,7 @@ import com.thomasmccue.c196pastudentapp.R;
 import java.lang.ref.WeakReference;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -116,7 +117,19 @@ public class TermDetailsActivity extends AppCompatActivity {
     }
 
     public void termEditButtonClicked(View view) {
+        Intent intent = new Intent(TermDetailsActivity.this, EditTermActivity.class);
+        intent.putExtra("TERM_ID", termDetails.getTerm().getTermId());
+        intent.putExtra("TERM_TITLE", termDetails.getTerm().getTitle());
+        intent.putExtra("TERM_START_DATE", termDetails.getTerm().getStartDate().toString());
+        intent.putExtra("TERM_END_DATE", termDetails.getTerm().getEndDate().toString());
 
+        ArrayList<Integer> associatedCourseIds = new ArrayList<>();
+        for (Course course : termDetails.getCourses()) {
+            associatedCourseIds.add(course.getCourseId());
+        }
+        intent.putIntegerArrayListExtra("ASSOCIATED_COURSE_IDS", associatedCourseIds);
+
+        startActivity(intent);
     }
 
     public void termDeleteButtonClicked(View view) {

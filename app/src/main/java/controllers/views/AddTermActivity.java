@@ -22,6 +22,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import controllers.adapters.CheckBoxCourseRecyclerViewAdapter;
 
@@ -37,13 +39,14 @@ public class AddTermActivity extends AppCompatActivity {
     private RecyclerView courseRecyclerView;
     private TextView emptyView;
     private StudentDatabase studentDatabase;
+    private ExecutorService executor;
     private CheckBoxCourseRecyclerViewAdapter checkListCourseAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_add_term);
+        setContentView(R.layout.activity_add_edit_term);
 
         //allow for insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -62,6 +65,10 @@ public class AddTermActivity extends AppCompatActivity {
 
         //get apps database instance
         studentDatabase = StudentDatabase.getInstance(getApplicationContext());
+
+
+        // Initialize executor
+        executor = Executors.newSingleThreadExecutor();
 
         //find text input and save button
         termTitleInput = findViewById(R.id.termTitleInput);
@@ -122,11 +129,11 @@ public class AddTermActivity extends AppCompatActivity {
             return; // Exit the click listener
         }
 
-        // Create a new Term object
+        // make term object
         Term term = new Term(name, startDate, endDate);
 
         // Insert term into database, and update associated courses
-        new Thread(() -> {
+        executor.execute(() -> {
             // Insert term into database and get the generated term ID
             long termIdLong = studentDatabase.termDAO().insert(term);
 
@@ -140,19 +147,20 @@ public class AddTermActivity extends AppCompatActivity {
                 studentDatabase.courseDAO().update(course);
             }
 
+            // Update UI on the main thread
             runOnUiThread(() -> {
                 startActivity(new Intent(AddTermActivity.this, TermActivity.class));
                 finish();
             });
-        }).start();
+        });
     }
 
     public void termDiscardButtonClicked(View view) {
-        startActivity(new Intent(AddTermActivity.this, AssessmentActivity.class));
+        startActivity(new Intent(AddTermActivity.this, TermActivity.class));
     }
 
     private void courseListSetUp() {
-        new Thread(() -> {
+        executor.execute(() -> {
             List<Course> courses = studentDatabase.courseDAO().getAllCourses();
             runOnUiThread(() -> {
                 if (courses.isEmpty()) {
@@ -164,6 +172,6 @@ public class AddTermActivity extends AppCompatActivity {
                     checkListCourseAdapter.setCourses(courses);
                 }
             });
-        }).start();
+        });
     }
 }

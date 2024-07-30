@@ -191,19 +191,6 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:paddingTop="8dp" />
 
-            <TextView
-                android:id="@+id/deleteError"
-                android:layout_margin="16dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/delete_error_course"
-                android:visibility="gone"
-                android:textColor="@color/colorError"
-                app:layout_constraintTop_toBottomOf="@+id/courseNote"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
-
             <!-- Buttons -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -211,6 +198,20 @@
                 android:orientation="horizontal"
                 android:gravity="end"
                 android:padding="8dp">
+
+                <TextView
+                    android:id="@+id/deleteError"
+                    android:layout_margin="16dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/delete_error_course"
+                    android:visibility="gone"
+                    android:textColor="@color/colorError"
+                    app:layout_constraintBottom_toTopOf="@+id/courseDeleteButton"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
                 <Button
                     android:id="@+id/courseEditButton"
                     android:layout_width="wrap_content"
