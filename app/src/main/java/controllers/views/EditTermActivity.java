@@ -41,7 +41,6 @@ public class EditTermActivity extends AppCompatActivity {
     private CheckBoxCourseRecyclerViewAdapter courseAdapter;
 
     private StudentDatabase studentDatabase;
-    private ExecutorService executor;
 
     private List<Course> allCourses;
     private Set<Integer> associatedCourseIds;
@@ -60,32 +59,47 @@ public class EditTermActivity extends AppCompatActivity {
         termDAO = studentDatabase.termDAO();
         courseDAO = studentDatabase.courseDAO();
 
-        executor = Executors.newSingleThreadExecutor();
-
         // Retrieve term details and associated course IDs from intent
         Intent intent = getIntent();
         termId = intent.getIntExtra("TERM_ID", -1);
         String termTitle = intent.getStringExtra("TERM_TITLE");
-        String termStartDate = intent.getStringExtra("TERM_START_DATE");
-        String termEndDate = intent.getStringExtra("TERM_END_DATE");
+        long termStartDate = intent.getLongExtra("TERM_START_DATE",-1);
+        long termEndDate = intent.getLongExtra("TERM_END_DATE",-1);
+
+        // Populate the text inputs
+        populateTextInputs(termTitle, termStartDate, termEndDate);
+
+        // Set up the course recycler view
         ArrayList<Integer> associatedCourseIdsList = intent.getIntegerArrayListExtra("ASSOCIATED_COURSE_IDS");
         associatedCourseIds = new HashSet<>(associatedCourseIdsList);
 
-        // Populate the text inputs
-        termTitleInput.setText(termTitle);
-        termStartDateInput.setText(termStartDate);
-        termEndDateInput.setText(termEndDate);
-
-        // Set up the course recycler view
         courseAdapter = new CheckBoxCourseRecyclerViewAdapter();
         courseRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         courseRecyclerView.setAdapter(courseAdapter);
 
         // Load all courses and update the adapter
+        ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
             allCourses = courseDAO.getAllCourses();
             runOnUiThread(() -> courseAdapter.setSelectedCourses(allCourses, associatedCourseIds));
         });
+        executor.shutdown();
+    }
+
+    private void populateTextInputs(String termTitle, long termStartDate, long termEndDate) {
+        //convert to local dates
+        LocalDate termStart = LocalDate.ofEpochDay(termStartDate);
+        LocalDate termEnd = LocalDate.ofEpochDay(termEndDate);
+
+        // Format dates
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        String formattedStartDate = termStart.format(formatter);
+        String formattedEndDate = termEnd.format(formatter);
+
+        // Populate the text inputs
+        termTitleInput.setText(termTitle);
+        termStartDateInput.setText(formattedStartDate);
+        termEndDateInput.setText(formattedEndDate);
     }
 
     public void termSaveButtonClicked(View view) {
@@ -122,6 +136,7 @@ public class EditTermActivity extends AppCompatActivity {
         // Lambda wants final variables
         LocalDate finalUpdatedStartDate = updatedStartDate;
         LocalDate finalUpdatedEndDate = updatedEndDate;
+        ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
             // Retrieve the term from the database
             Term existingTerm = termDAO.getTermById(termId);
@@ -165,10 +180,10 @@ public class EditTermActivity extends AppCompatActivity {
                 finish();
             });
         });
+        executor.shutdown();
     }
 
-
-    public void termDiscardButtonClicked(View view){
+    public void termDiscardButtonClicked(View view) {
         runOnUiThread(() -> {
             Intent intent = new Intent(EditTermActivity.this, TermDetailsActivity.class);
             intent.putExtra("TERM_ID", termId);

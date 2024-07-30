@@ -1,7 +1,6 @@
 package controllers.views;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -17,12 +16,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thomasmccue.c196pastudentapp.R;
 
-import java.lang.ref.WeakReference;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -75,13 +72,12 @@ public class TermDetailsActivity extends AppCompatActivity {
 
         if (termId != -1) {
             ExecutorService executor = Executors.newSingleThreadExecutor();
-            Future<TermDetails> future = executor.submit(new GetTermDetails(termDAO, termId, courseDAO));
             try {
-                // This will block until the task completes and returns the result
+                Future<TermDetails> future = executor.submit(new GetTermDetails(termDAO, termId, courseDAO));
                 TermDetails termDetails = future.get();
                 // Update the UI on the main thread
                 runOnUiThread(() -> displayTermDetails(termDetails));
-            } catch (InterruptedException | ExecutionException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             } finally {
                 executor.shutdown();
@@ -120,8 +116,8 @@ public class TermDetailsActivity extends AppCompatActivity {
         Intent intent = new Intent(TermDetailsActivity.this, EditTermActivity.class);
         intent.putExtra("TERM_ID", termDetails.getTerm().getTermId());
         intent.putExtra("TERM_TITLE", termDetails.getTerm().getTitle());
-        intent.putExtra("TERM_START_DATE", termDetails.getTerm().getStartDate().toString());
-        intent.putExtra("TERM_END_DATE", termDetails.getTerm().getEndDate().toString());
+        intent.putExtra("TERM_START_DATE", termDetails.getTerm().getStartDate().toEpochDay());
+        intent.putExtra("TERM_END_DATE", termDetails.getTerm().getEndDate().toEpochDay());
 
         ArrayList<Integer> associatedCourseIds = new ArrayList<>();
         for (Course course : termDetails.getCourses()) {
@@ -151,6 +147,7 @@ public class TermDetailsActivity extends AppCompatActivity {
                 runOnUiThread(() -> deleteError.setVisibility(View.VISIBLE));
             }
         });
+        executor.shutdown();
     }
 
     public void displayTermDetails(TermDetails termDetails){

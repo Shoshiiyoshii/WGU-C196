@@ -39,7 +39,6 @@ public class AddTermActivity extends AppCompatActivity {
     private RecyclerView courseRecyclerView;
     private TextView emptyView;
     private StudentDatabase studentDatabase;
-    private ExecutorService executor;
     private CheckBoxCourseRecyclerViewAdapter checkListCourseAdapter;
 
     @Override
@@ -66,11 +65,7 @@ public class AddTermActivity extends AppCompatActivity {
         //get apps database instance
         studentDatabase = StudentDatabase.getInstance(getApplicationContext());
 
-
-        // Initialize executor
-        executor = Executors.newSingleThreadExecutor();
-
-        //find text input and save button
+        // Find text input and save button
         termTitleInput = findViewById(R.id.termTitleInput);
         termStartInput = findViewById(R.id.termStartDateInput);
         termEndInput = findViewById(R.id.termEndDateInput);
@@ -132,7 +127,8 @@ public class AddTermActivity extends AppCompatActivity {
         // make term object
         Term term = new Term(name, startDate, endDate);
 
-        // Insert term into database, and update associated courses
+        // Insert term into database and update associated courses
+        ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
             // Insert term into database and get the generated term ID
             long termIdLong = studentDatabase.termDAO().insert(term);
@@ -152,6 +148,8 @@ public class AddTermActivity extends AppCompatActivity {
                 startActivity(new Intent(AddTermActivity.this, TermActivity.class));
                 finish();
             });
+
+            executor.shutdown();
         });
     }
 
@@ -160,6 +158,7 @@ public class AddTermActivity extends AppCompatActivity {
     }
 
     private void courseListSetUp() {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
             List<Course> courses = studentDatabase.courseDAO().getAllCourses();
             runOnUiThread(() -> {
@@ -172,6 +171,8 @@ public class AddTermActivity extends AppCompatActivity {
                     checkListCourseAdapter.setCourses(courses);
                 }
             });
+
+            executor.shutdown();
         });
     }
 }
