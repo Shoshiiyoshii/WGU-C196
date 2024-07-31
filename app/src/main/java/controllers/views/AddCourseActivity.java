@@ -25,6 +25,8 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import controllers.adapters.CheckBoxAssessmentRecyclerViewAdapter;
 import model.StudentDatabase;
@@ -57,61 +59,43 @@ public class AddCourseActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_edit_course);
 
+        // Allow for insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        
-        //get application database instance
+
+        // Get app's database instance
         studentDatabase = StudentDatabase.getInstance(getApplicationContext());
 
-        //find UI elements
+        //find other UI elements
         courseNameInput = findViewById(R.id.courseNameInput);
         courseStartDateInput = findViewById(R.id.courseStartDateInput);
         courseEndDateInput = findViewById(R.id.courseEndDateInput);
 
-        //set up course status drop down using ArrayAdapter
         courseStatusSpinner = findViewById(R.id.courseStatusSpinner);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
-                R.array.course_status, android.R.layout.simple_spinner_item);
 
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        courseStatusSpinner.setAdapter(adapter);
-
-        courseStatusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                status = (String) parent.getItemAtPosition(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                status = null;
-            }
-        });
-
-        //find the rest of the UI elements
         instructorNameInput = findViewById(R.id.instructorNameInput);
         instructorPhoneInput = findViewById(R.id.instructorPhoneInput);
         instructorEmailInput = findViewById(R.id.instructorEmailInput);
 
+        courseNotesInput = findViewById(R.id.courseNotesInput);
+
+        // Find and set up RecyclerView
         emptyView = findViewById(R.id.noAssessmentsText);
         assessmentRecyclerView = findViewById(R.id.recyclerViewAssessments);
-
-        //set up recycler view for assessments and adapter
         assessmentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         checkListAssessmentAdapter = new CheckBoxAssessmentRecyclerViewAdapter();
         assessmentRecyclerView.setAdapter(checkListAssessmentAdapter);
+
+        statusSpinnerSetUp();
+
         assessmentListSetUp();
 
-        courseNotesInput = findViewById(R.id.courseNotesInput);
-
-        //set up bottom nav
+        // Bottom navigation listeners
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.nav_courses);
-
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_home) {
                 startActivity(new Intent(AddCourseActivity.this, MainActivity.class));
@@ -132,7 +116,8 @@ public class AddCourseActivity extends AppCompatActivity {
     }
 
     private void assessmentListSetUp() {
-        new Thread(() -> {
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
             List<Assessment> assessments = studentDatabase.assessmentDAO().getAllAssessments();
             runOnUiThread(() -> {
                 if (assessments.isEmpty()) {
@@ -144,10 +129,31 @@ public class AddCourseActivity extends AppCompatActivity {
                     checkListAssessmentAdapter.setAssessments(assessments);
                 }
             });
-        }).start();
+
+            executor.shutdown();
+        });
     }
 
-    public void courseSaveButtonClicked(View view){
+    private void statusSpinnerSetUp() {
+        // Set up course status drop down using ArrayAdapter
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.course_status, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        courseStatusSpinner.setAdapter(adapter);
+        courseStatusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                status = (String) parent.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                status = null;
+            }
+        });
+    }
+
+    public void courseSaveButtonClicked(View view) {
         String courseName = courseNameInput.getText().toString();
         String startDateString = courseStartDateInput.getText().toString();
         String endDateString = courseEndDateInput.getText().toString();
@@ -184,30 +190,37 @@ public class AddCourseActivity extends AppCompatActivity {
 
         String courseNote = courseNotesInput.getText().toString();
 
-        // Create a new Course object
+        // Create a new Course object, termId will always be null on create, since termId
+        // is added from the term page
         Course course = new Course(null, courseName, startDate, endDate, instructorName,
                 instructorEmail, instructorPhone, status, courseNote);
 
-        // Insert course into database, and update associated courses
-        new Thread(() -> {
-            studentDatabase.courseDAO().insert(course);
+        // Insert course into database and update associated assessments
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        executor.execute(() -> {
+            // Insert course into database and get the generated course ID
+            long courseIdLong = studentDatabase.courseDAO().insert(course);
 
+            // Cast courseIdLong to int
+            int courseId = (int) courseIdLong;
+
+            // Update associated assessments with the new course ID
             Set<Assessment> selectedAssessments = checkListAssessmentAdapter.getSelectedAssessments();
-
             for (Assessment assessment : selectedAssessments) {
-                assessment.setCourseId(course.getCourseId());
+                assessment.setCourseId(courseId);
                 studentDatabase.assessmentDAO().update(assessment);
             }
 
+            // Update UI on the main thread
             runOnUiThread(() -> {
                 startActivity(new Intent(AddCourseActivity.this, CourseActivity.class));
                 finish();
             });
-        }).start();
-
+            executor.shutdown();
+        });
     }
 
-    public void courseDiscardButtonClicked(View view){
-        startActivity(new Intent(AddCourseActivity.this, AssessmentActivity.class));
+    public void courseDiscardButtonClicked(View view) {
+        startActivity(new Intent(AddCourseActivity.this, CourseActivity.class));
     }
 }

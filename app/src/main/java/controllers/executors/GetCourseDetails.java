@@ -10,9 +10,9 @@ import model.entities.Course;
 import model.entities.Term;
 
 public class GetCourseDetails implements Callable<CourseDetails> {
-    private AssessmentDAO assessmentDAO;
-    private CourseDAO courseDAO;
-    private int courseID;
+    private final AssessmentDAO assessmentDAO;
+    private final CourseDAO courseDAO;
+    private final int courseID;
 
     public GetCourseDetails(CourseDAO courseDAO, int courseID, AssessmentDAO assessmentDAO){
         this.courseDAO = courseDAO;

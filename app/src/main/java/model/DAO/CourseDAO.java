@@ -12,7 +12,7 @@ import model.entities.Course;
 @Dao
 public interface CourseDAO {
     @Insert
-    void insert(Course course);
+    long insert(Course course);
 
     @Update
     void update(Course course);

@@ -21,7 +21,6 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import controllers.views.TermDetailsActivity;
 import model.DAO.CourseDAO;
 import model.DAO.TermDAO;
 import model.StudentDatabase;
