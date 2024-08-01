@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,7 +40,7 @@ public class TermDetailsActivity extends AppCompatActivity {
     private TextView termEnd;
     private RecyclerView courseRecycler;
     private TextView emptyView;
-    private TextView deleteError;
+
 
     private TermDAO termDAO;
     private CourseDAO courseDAO;
@@ -61,7 +62,7 @@ public class TermDetailsActivity extends AppCompatActivity {
         termEnd = findViewById(R.id.termEndDate);
         courseRecycler = findViewById(R.id.recyclerViewCourses);
         emptyView = findViewById(R.id.noCoursesText);
-        deleteError = findViewById(R.id.deleteError);
+
 
         courseAdapter = new ListCourseRecyclerViewAdapter();
         courseRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -138,17 +139,23 @@ public class TermDetailsActivity extends AppCompatActivity {
                 // No associated courses, delete the term
                 termDAO.delete(termDetails.getTerm());
                 runOnUiThread(() -> {
+                    Toast.makeText(this, "Term Deleted Successfully", Toast.LENGTH_SHORT).show();
                     // Navigate back to TermActivity on the main thread
                     startActivity(new Intent(TermDetailsActivity.this, TermActivity.class));
                     finish();
                 });
             } else {
                 // There are associated courses, show error message
-                runOnUiThread(() -> deleteError.setVisibility(View.VISIBLE));
+                runOnUiThread(() ->
+                        Toast.makeText(this,
+                                "Failed to delete. Please remove all courses before deleting a term.",
+                                Toast.LENGTH_LONG).show()
+                );
             }
+            executor.shutdown();
         });
-        executor.shutdown();
     }
+
 
     public void displayTermDetails(TermDetails termDetails){
         this.termDetails = termDetails;

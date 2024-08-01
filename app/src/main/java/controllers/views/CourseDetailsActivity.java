@@ -8,6 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import com.thomasmccue.c196pastudentapp.R;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -40,6 +42,7 @@ import model.DAO.CourseDAO;
 import model.DAO.TermDAO;
 import model.StudentDatabase;
 import model.entities.Assessment;
+import model.entities.Course;
 
 public class CourseDetailsActivity extends AppCompatActivity {
     private TextView courseTitle;
@@ -56,7 +59,6 @@ public class CourseDetailsActivity extends AppCompatActivity {
     private RecyclerView assessmentRecyclerView;
 
     private TextView courseNote;
-    private TextView deleteError;
 
     private StudentDatabase studentDatabase;
     private CourseDAO courseDAO;
@@ -101,8 +103,6 @@ public class CourseDetailsActivity extends AppCompatActivity {
         assessmentRecyclerView.setAdapter(assessmentAdapter);
 
         courseNote = findViewById(R.id.courseNote);
-
-        deleteError = findViewById(R.id.deleteError);
 
         // Retrieve the course ID from the intent
         int courseId = getIntent().getIntExtra("COURSE_ID", -1);
@@ -178,7 +178,25 @@ public class CourseDetailsActivity extends AppCompatActivity {
     }
 
     public void courseEditButtonClicked(View view){
+        Intent intent = new Intent(CourseDetailsActivity.this, EditCourseActivity.class);
+        intent.putExtra("COURSE_ID", courseDetails.getCourse().getCourseId());
+        intent.putExtra("COURSE_NAME", courseDetails.getCourse().getCourseName());
+        intent.putExtra("COURSE_START_DATE", courseDetails.getCourse().getStartDate().toEpochDay());
+        intent.putExtra("COURSE_END_DATE", courseDetails.getCourse().getEndDate().toEpochDay());
+        intent.putExtra("COURSE_STATUS", courseDetails.getCourse().getStatus());
+        intent.putExtra("COURSE_INSTRUCTOR_NAME", courseDetails.getCourse().getInstructorName());
+        intent.putExtra("COURSE_INSTRUCTOR_PHONE", courseDetails.getCourse().getInstructorPhone());
+        intent.putExtra("COURSE_INSTRUCTOR_EMAIL", courseDetails.getCourse().getInstructorEmail());
 
+        ArrayList<Integer> associatedAssessmentIds = new ArrayList<>();
+        for (Assessment assessment : courseDetails.getAssessments()) {
+            associatedAssessmentIds.add(assessment.getAssessmentId());
+        }
+        intent.putIntegerArrayListExtra("ASSOCIATED_ASSESSMENT_IDS", associatedAssessmentIds);
+
+        intent.putExtra("COURSE_NOTE", courseDetails.getCourse().getCourseNote());
+
+        startActivity(intent);
     }
 
     public void courseDeleteButtonClicked(View view) {
@@ -191,6 +209,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
                 // No associated assessments, delete the course
                 courseDAO.delete(courseDetails.getCourse());
                 runOnUiThread(() -> {
+                    Toast.makeText(this, "Course Deleted Successfully", Toast.LENGTH_SHORT).show();
                     // Navigate back to CourseActivity on the main thread
                     startActivity(new Intent(CourseDetailsActivity.this, CourseActivity.class));
                     finish();
@@ -198,9 +217,12 @@ public class CourseDetailsActivity extends AppCompatActivity {
             } else {
                 // There are associated assessments, show error message
                 runOnUiThread(() -> {
-                    deleteError.setVisibility(View.VISIBLE);
+                    Toast.makeText(this, "Delete Failed. Please remove all " +
+                            "associated assessments before deleting this course",
+                            Toast.LENGTH_LONG).show();
                 });
             }
+            executor.shutdown();
         });
     }
 }

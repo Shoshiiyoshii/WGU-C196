@@ -4,11 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thomasmccue.c196pastudentapp.R;
 
 import java.time.LocalDate;
@@ -33,6 +36,7 @@ public class EditTermActivity extends AppCompatActivity {
     private EditText termStartDateInput;
     private EditText termEndDateInput;
     private RecyclerView courseRecyclerView;
+    private TextView emptyView;
 
     private TermDAO termDAO;
     private CourseDAO courseDAO;
@@ -53,6 +57,7 @@ public class EditTermActivity extends AppCompatActivity {
         termStartDateInput = findViewById(R.id.termStartDateInput);
         termEndDateInput = findViewById(R.id.termEndDateInput);
         courseRecyclerView = findViewById(R.id.recyclerViewCourses);
+        emptyView = findViewById(R.id.noCoursesText);
 
         studentDatabase = StudentDatabase.getInstance(getApplicationContext());
         termDAO = studentDatabase.termDAO();
@@ -64,12 +69,37 @@ public class EditTermActivity extends AppCompatActivity {
         String termTitle = intent.getStringExtra("TERM_TITLE");
         long termStartDate = intent.getLongExtra("TERM_START_DATE",-1);
         long termEndDate = intent.getLongExtra("TERM_END_DATE",-1);
+        ArrayList<Integer> associatedCourseIdsList = intent.getIntegerArrayListExtra("ASSOCIATED_COURSE_IDS");
 
         // Populate the text inputs
         populateTextInputs(termTitle, termStartDate, termEndDate);
 
+        setUpRecyclerView(associatedCourseIdsList);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
+        bottomNavigationView.setSelectedItemId(R.id.nav_terms);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            if (item.getItemId() == R.id.nav_home) {
+                startActivity(new Intent(EditTermActivity.this, MainActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.nav_terms) {
+                startActivity(new Intent(EditTermActivity.this, TermActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.nav_courses) {
+                startActivity(new Intent(EditTermActivity.this, CourseActivity.class));
+                return true;
+            } else if (item.getItemId() == R.id.nav_assessments) {
+                startActivity(new Intent(EditTermActivity.this, AssessmentActivity.class));
+                return true;
+            } else {
+                return false;
+            }
+        });
+    }
+
+    private void setUpRecyclerView(ArrayList<Integer> associatedCourseIdsList) {
         // Set up the course recycler view
-        ArrayList<Integer> associatedCourseIdsList = intent.getIntegerArrayListExtra("ASSOCIATED_COURSE_IDS");
         associatedCourseIds = new HashSet<>(associatedCourseIdsList);
 
         courseAdapter = new CheckBoxCourseRecyclerViewAdapter();
@@ -135,6 +165,7 @@ public class EditTermActivity extends AppCompatActivity {
         // Lambda wants final variables
         LocalDate finalUpdatedStartDate = updatedStartDate;
         LocalDate finalUpdatedEndDate = updatedEndDate;
+
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
             // Retrieve the term from the database
@@ -173,6 +204,7 @@ public class EditTermActivity extends AppCompatActivity {
             }
             // Update UI on the main thread
             runOnUiThread(() -> {
+                Toast.makeText(this, "Term Updated Successfully", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(EditTermActivity.this, TermDetailsActivity.class);
                 intent.putExtra("TERM_ID", termId);
                 startActivity(intent);
@@ -184,6 +216,7 @@ public class EditTermActivity extends AppCompatActivity {
 
     public void termDiscardButtonClicked(View view) {
         runOnUiThread(() -> {
+            Toast.makeText(this, "Term Changes Discarded", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(EditTermActivity.this, TermDetailsActivity.class);
             intent.putExtra("TERM_ID", termId);
             startActivity(intent);

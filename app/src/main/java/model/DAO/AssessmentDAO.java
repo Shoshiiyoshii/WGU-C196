@@ -13,7 +13,7 @@ import model.entities.Assessment;
 @Dao
 public interface AssessmentDAO {
     @Insert
-    void insert(Assessment assessment);
+    long insert(Assessment assessment);
 
     @Update
     void update(Assessment assessment);

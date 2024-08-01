@@ -19,7 +19,7 @@ public class Assessment {
     private int assessmentId;
 
     @ColumnInfo(name = "course_id")
-    private int courseId;
+    private Integer courseId;
 
     @ColumnInfo(name = "assessment_name")
     private String assessmentName;
@@ -33,13 +33,14 @@ public class Assessment {
     @ColumnInfo(name = "assessment_type")
     private String assessmentType;
 
-    public Assessment(int courseId, String assessmentName, LocalDate assessmentStartDate,
-                      LocalDate assessmentDueDate, String assessmentType){
-        this.courseId = courseId;
+    public Assessment(String assessmentName, String assessmentType, Integer courseId,
+                      LocalDate assessmentStartDate, LocalDate assessmentDueDate){
         this.assessmentName = assessmentName;
+        this.assessmentType = assessmentType;
+        this.courseId = courseId;
         this.assessmentStartDate = assessmentStartDate;
         this.assessmentDueDate = assessmentDueDate;
-        this.assessmentType = assessmentType;
+
     }
 
     //accessors
@@ -47,7 +48,7 @@ public class Assessment {
         return assessmentId;
     }
 
-    public int getCourseId() {
+    public Integer getCourseId() {
         return courseId;
     }
 
@@ -73,7 +74,7 @@ public class Assessment {
         this.assessmentId = assessmentId;
     }
 
-    public void setCourseId (int courseId) {
+    public void setCourseId (Integer courseId) {
         this.courseId = courseId;
     }
 

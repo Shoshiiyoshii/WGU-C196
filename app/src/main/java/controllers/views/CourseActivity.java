@@ -56,12 +56,11 @@ public class CourseActivity extends AppCompatActivity {
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setSelectedItemId(R.id.nav_courses);
-
         bottomNavigationView.setOnItemSelectedListener(item -> {
             if (item.getItemId() == R.id.nav_home) {
                 startActivity(new Intent(CourseActivity.this, MainActivity.class));
                 return true;
-            } else if (item.getItemId() == R.id.nav_courses) { //FIXME bug when trying to go to terms from courses?
+            } else if (item.getItemId() == R.id.nav_terms) { 
                 startActivity(new Intent(CourseActivity.this, TermActivity.class));
                 return true;
             } else if (item.getItemId() == R.id.nav_courses) {

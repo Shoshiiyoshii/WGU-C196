@@ -62,23 +62,7 @@
                     android:padding="8dp" />
 
                 <Spinner
-                    android:id="@+id/assessmentTypeInput"
-                    android:layout_width="0dp"
-                    android:layout_height="48dp"
-                    android:layout_weight="1"
-                    android:padding="8dp" />
-            </TableRow>
-
-            <!-- Associated Course -->
-            <TableRow>
-                <TextView
-                    android:text="@string/associated_courses"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="8dp" />
-
-                <Spinner
-                    android:id="@+id/assessmentCourseSpinner"
+                    android:id="@+id/assessmentTypeSpinner"
                     android:layout_width="0dp"
                     android:layout_height="48dp"
                     android:layout_weight="1"

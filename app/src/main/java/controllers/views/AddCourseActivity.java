@@ -2,12 +2,14 @@ package controllers.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -185,8 +187,20 @@ public class AddCourseActivity extends AppCompatActivity {
         }
 
         String instructorName = instructorNameInput.getText().toString();
+
         String instructorEmail = instructorEmailInput.getText().toString();
+        // Validate email format
+        if (!Patterns.EMAIL_ADDRESS.matcher(instructorEmail).matches()) {
+            instructorEmailInput.setError("Invalid email format.");
+            return; // Exit the click listener
+        }
+
         String instructorPhone = instructorPhoneInput.getText().toString();
+        // Validate phone number format
+        if (!instructorPhone.matches("\\(\\d{3}\\)\\d{3}-\\d{4}")) {
+            instructorPhoneInput.setError("Invalid phone number format. Please use (xxx)xxx-xxxx.");
+            return; // Exit the click listener
+        }
 
         String courseNote = courseNotesInput.getText().toString();
 
@@ -213,6 +227,7 @@ public class AddCourseActivity extends AppCompatActivity {
 
             // Update UI on the main thread
             runOnUiThread(() -> {
+                Toast.makeText(this, "Course added successfully", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(AddCourseActivity.this, CourseActivity.class));
                 finish();
             });
@@ -221,6 +236,7 @@ public class AddCourseActivity extends AppCompatActivity {
     }
 
     public void courseDiscardButtonClicked(View view) {
+        Toast.makeText(this, "New Course Discarded", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(AddCourseActivity.this, CourseActivity.class));
     }
 }

@@ -6,9 +6,11 @@ import android.widget.CheckBox;
 import com.thomasmccue.c196pastudentapp.R;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import model.entities.Assessment;
+import model.entities.Course;
 
 public class CheckBoxAssessmentRecyclerViewAdapter extends BaseAssessmentRecyclerViewAdapter{
     private final Set<Assessment> selectedAssessments = new HashSet<>();
@@ -27,6 +29,17 @@ public class CheckBoxAssessmentRecyclerViewAdapter extends BaseAssessmentRecycle
                 }
             });
         }
+
+    public void setSelectedAssessments(List<Assessment> assessments, Set<Integer> associatedAssessmentIds) {
+        this.assessments = assessments;
+        selectedAssessments.clear();
+        for (Assessment assessment : assessments) {
+            if (associatedAssessmentIds.contains(assessment.getAssessmentId())) {
+                selectedAssessments.add(assessment);
+            }
+        }
+        notifyDataSetChanged();
+    }
 
         public Set<Assessment> getSelectedAssessments() {
             return selectedAssessments;

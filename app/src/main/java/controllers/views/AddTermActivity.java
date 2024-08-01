@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -145,6 +146,7 @@ public class AddTermActivity extends AppCompatActivity {
 
             // Update UI on the main thread
             runOnUiThread(() -> {
+                Toast.makeText(this, "Term Added Successfully", Toast.LENGTH_SHORT).show();
                 startActivity(new Intent(AddTermActivity.this, TermActivity.class));
                 finish();
             });
@@ -154,6 +156,7 @@ public class AddTermActivity extends AppCompatActivity {
     }
 
     public void termDiscardButtonClicked(View view) {
+        Toast.makeText(this, "New Term Discarded", Toast.LENGTH_SHORT).show();
         startActivity(new Intent(AddTermActivity.this, TermActivity.class));
     }
 

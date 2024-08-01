@@ -31,6 +31,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/assessmentTitle" />
 
+    <TextView
+        android:id="@+id/noAssessmentsText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/no_assessments_yet"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@+id/assessmentsIntro"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewAssessments"
         android:layout_width="405dp"

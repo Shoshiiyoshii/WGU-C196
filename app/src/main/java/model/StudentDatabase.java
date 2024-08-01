@@ -10,7 +10,7 @@ import androidx.room.TypeConverters;
 import model.DAO.*;
 import model.entities.*;
 
-@Database(entities = {Term.class, Course.class, Assessment.class}, version = 2, exportSchema = false)
+@Database(entities = {Term.class, Course.class, Assessment.class}, version = 3, exportSchema = false)
 @TypeConverters(MyTypeConverters.class)
 public abstract class StudentDatabase extends RoomDatabase {
 
