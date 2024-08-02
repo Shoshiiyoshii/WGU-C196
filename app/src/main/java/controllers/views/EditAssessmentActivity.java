@@ -2,6 +2,9 @@ package controllers.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -20,6 +24,7 @@ import com.thomasmccue.c196pastudentapp.R;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -49,6 +54,9 @@ public class EditAssessmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_assessment);
 
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.assessment_edit);
 
         // Allow for insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
@@ -78,27 +86,35 @@ public class EditAssessmentActivity extends AppCompatActivity {
         populateTextInputs(assessmentName, startDateLong, endDateLong);
         
         setUpTypeSpinner(assessmentType);
+    }
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.nav_assessments);
 
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.nav_home) {
-                startActivity(new Intent(EditAssessmentActivity.this, MainActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.nav_terms) {
-                startActivity(new Intent(EditAssessmentActivity.this, TermActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.nav_courses) {
-                startActivity(new Intent(EditAssessmentActivity.this, CourseActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.nav_assessments) {
-                startActivity(new Intent(EditAssessmentActivity.this, AssessmentActivity.class));
-                return true;
-            } else {
-                return false;
-            }
-        });
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu resource into the Toolbar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.nav_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection from the menu
+        if (item.getItemId() == R.id.nav_home) {
+            startActivity(new Intent(EditAssessmentActivity.this, MainActivity.class));
+            return true;
+        } else if (item.getItemId() == R.id.nav_terms) {
+            startActivity(new Intent(EditAssessmentActivity.this, TermActivity.class));
+            return true;
+        } else if (item.getItemId() == R.id.nav_courses) {
+            startActivity(new Intent(EditAssessmentActivity.this, CourseActivity.class));
+            return true;
+        } else if (item.getItemId() == R.id.nav_assessments) {
+            startActivity(new Intent(EditAssessmentActivity.this, AssessmentActivity.class));
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void setUpTypeSpinner(String assessmentType) {

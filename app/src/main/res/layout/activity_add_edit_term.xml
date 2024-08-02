@@ -7,14 +7,16 @@
     android:layout_height="match_parent"
     tools:context="controllers.views.AddTermActivity">
 
-  <!-- Term Title -->
-  <TextView
-      android:id="@+id/termAddOrEditTitle"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/terms_add_or_edit_title"
-      android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-      android:padding="16dp"
+  <!-- Fixed Action Bar -->
+  <androidx.appcompat.widget.Toolbar
+      android:id="@+id/toolbar"
+      android:layout_width="0dp"
+      android:layout_height="?attr/actionBarSize"
+      android:background="?attr/colorPrimary"
+      android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+      android:gravity="center"
+      android:titleTextColor="@android:color/white"
+      app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
       app:layout_constraintTop_toTopOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintEnd_toEndOf="parent" />
@@ -23,8 +25,8 @@
   <ScrollView
       android:layout_width="0dp"
       android:layout_height="0dp"
-      app:layout_constraintTop_toBottomOf="@id/termAddOrEditTitle"
-      app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
+      app:layout_constraintTop_toBottomOf="@id/toolbar"
+      app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintEnd_toEndOf="parent">
 
@@ -168,19 +170,9 @@
             android:layout_marginBottom="16dp"
             android:onClick="termDiscardButtonClicked"/>
       </LinearLayout>
-    </LinearLayout>
-  </ScrollView>
 
-  <!-- Bottom Navigation -->
-  <com.google.android.material.bottomnavigation.BottomNavigationView
-      android:id="@+id/bottom_navigation"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_gravity="bottom"
-      app:layout_constraintBottom_toBottomOf="parent"
-      app:layout_constraintStart_toStartOf="parent"
-      app:layout_constraintEnd_toEndOf="parent"
-      app:labelVisibilityMode="labeled"
-      app:menu="@menu/bottom_nav" />
+    </LinearLayout>
+
+  </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

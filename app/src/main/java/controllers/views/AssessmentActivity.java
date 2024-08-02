@@ -2,11 +2,15 @@ package controllers.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -17,6 +21,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thomasmccue.c196pastudentapp.R;
 
 import java.util.List;
+import java.util.Objects;
 
 import controllers.adapters.ListAssessmentRecyclerViewAdapter;
 import model.StudentDatabase;
@@ -34,6 +39,11 @@ public class AssessmentActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_assessment);
 
+        //set up Action Bar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.title_assessments);
+
         // Set up RecyclerView and Adapter
         assessmentsRecyclerView = findViewById(R.id.recyclerViewAssessments);
         assessmentsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -48,32 +58,40 @@ public class AssessmentActivity extends AppCompatActivity {
         // Load courses from database and update RecyclerView
         loadAssessments();
 
+        // insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.nav_assessments);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu resource into the Toolbar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.nav_menu, menu);
+        return true;
+    }
 
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.nav_home) {
-                startActivity(new Intent(AssessmentActivity.this, MainActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.nav_terms) {
-                startActivity(new Intent(AssessmentActivity.this, TermActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.nav_courses) {
-                startActivity(new Intent(AssessmentActivity.this, CourseActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.nav_assessments) {
-                startActivity(new Intent(AssessmentActivity.this, AssessmentActivity.class));
-                return true;
-            } else {
-                return false;
-            }
-        });
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection from the menu
+        if (item.getItemId() == R.id.nav_home) {
+            startActivity(new Intent(AssessmentActivity.this, MainActivity.class));
+            return true;
+        } else if (item.getItemId() == R.id.nav_terms) {
+            startActivity(new Intent(AssessmentActivity.this, TermActivity.class));
+            return true;
+        } else if (item.getItemId() == R.id.nav_courses) {
+            startActivity(new Intent(AssessmentActivity.this, CourseActivity.class));
+            return true;
+        } else if (item.getItemId() == R.id.nav_assessments) {
+            startActivity(new Intent(AssessmentActivity.this, AssessmentActivity.class));
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void loadAssessments() {

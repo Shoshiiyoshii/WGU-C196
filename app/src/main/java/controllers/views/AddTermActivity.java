@@ -2,6 +2,9 @@ package controllers.views;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -9,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -22,6 +26,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -48,6 +53,11 @@ public class AddTermActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_edit_term);
 
+        //set up Action Bar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.term_add);
+
         //allow for insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -70,28 +80,34 @@ public class AddTermActivity extends AppCompatActivity {
         termTitleInput = findViewById(R.id.termTitleInput);
         termStartInput = findViewById(R.id.termStartDateInput);
         termEndInput = findViewById(R.id.termEndDateInput);
+    }
 
-        //bottom navigation listeners
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.nav_terms);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu resource into the Toolbar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.nav_menu, menu);
+        return true;
+    }
 
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.nav_home) {
-                startActivity(new Intent(AddTermActivity.this, MainActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.nav_terms) {
-                startActivity(new Intent(AddTermActivity.this, TermActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.nav_courses) {
-                startActivity(new Intent(AddTermActivity.this, CourseActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.nav_assessments) {
-                startActivity(new Intent(AddTermActivity.this, AssessmentActivity.class));
-                return true;
-            } else {
-                return false;
-            }
-        });
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection from the menu
+        if (item.getItemId() == R.id.nav_home) {
+            startActivity(new Intent(AddTermActivity.this, MainActivity.class));
+            return true;
+        } else if (item.getItemId() == R.id.nav_terms) {
+            startActivity(new Intent(AddTermActivity.this, TermActivity.class));
+            return true;
+        } else if (item.getItemId() == R.id.nav_courses) {
+            startActivity(new Intent(AddTermActivity.this, CourseActivity.class));
+            return true;
+        } else if (item.getItemId() == R.id.nav_assessments) {
+            startActivity(new Intent(AddTermActivity.this, AssessmentActivity.class));
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void termSaveButtonClicked(View view) {

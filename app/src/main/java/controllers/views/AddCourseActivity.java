@@ -3,6 +3,9 @@ package controllers.views;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -13,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -26,6 +30,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -61,6 +66,11 @@ public class AddCourseActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_edit_course);
 
+        //set up Action Bar
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.course_add);
+
         // Allow for insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -94,27 +104,34 @@ public class AddCourseActivity extends AppCompatActivity {
         statusSpinnerSetUp();
 
         assessmentListSetUp();
+    }
 
-        // Bottom navigation listeners
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
-        bottomNavigationView.setSelectedItemId(R.id.nav_courses);
-        bottomNavigationView.setOnItemSelectedListener(item -> {
-            if (item.getItemId() == R.id.nav_home) {
-                startActivity(new Intent(AddCourseActivity.this, MainActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.nav_terms) {
-                startActivity(new Intent(AddCourseActivity.this, TermActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.nav_courses) {
-                startActivity(new Intent(AddCourseActivity.this, CourseActivity.class));
-                return true;
-            } else if (item.getItemId() == R.id.nav_assessments) {
-                startActivity(new Intent(AddCourseActivity.this, AssessmentActivity.class));
-                return true;
-            } else {
-                return false;
-            }
-        });
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu resource into the Toolbar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.nav_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection from the menu
+        if (item.getItemId() == R.id.nav_home) {
+            startActivity(new Intent(AddCourseActivity.this, MainActivity.class));
+            return true;
+        } else if (item.getItemId() == R.id.nav_terms) {
+            startActivity(new Intent(AddCourseActivity.this, TermActivity.class));
+            return true;
+        } else if (item.getItemId() == R.id.nav_courses) {
+            startActivity(new Intent(AddCourseActivity.this, CourseActivity.class));
+            return true;
+        } else if (item.getItemId() == R.id.nav_assessments) {
+            startActivity(new Intent(AddCourseActivity.this, AssessmentActivity.class));
+            return true;
+        } else {
+            return false;
+        }
     }
 
     private void assessmentListSetUp() {
