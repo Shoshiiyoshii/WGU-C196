@@ -1,7 +1,6 @@
 package controllers.adapters;
 
 import android.content.Intent;
-import android.view.View;
 
 import model.entities.Assessment;
 import controllers.views.AssessmentDetailsActivity;

@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Set;
 
 import model.entities.Assessment;
-import model.entities.Course;
 
 public class CheckBoxAssessmentRecyclerViewAdapter extends BaseAssessmentRecyclerViewAdapter{
     private final Set<Assessment> selectedAssessments = new HashSet<>();

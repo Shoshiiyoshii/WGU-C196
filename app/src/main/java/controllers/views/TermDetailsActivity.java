@@ -18,7 +18,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thomasmccue.c196pastudentapp.R;
 
 import java.time.LocalDate;
@@ -31,12 +30,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
 import controllers.adapters.ListCourseRecyclerViewAdapter;
-import controllers.executors.GetTermDetails;
-import controllers.executors.TermDetails;
+import controllers.helpers.GetTermDetails;
+import controllers.helpers.TermDetails;
 import model.DAO.CourseDAO;
 import model.StudentDatabase;
 import model.entities.Course;
-import model.entities.Term;
 import model.DAO.TermDAO;
 
 public class TermDetailsActivity extends AppCompatActivity {

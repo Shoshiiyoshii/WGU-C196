@@ -7,7 +7,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,7 +17,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thomasmccue.c196pastudentapp.R;
 
 import java.time.LocalDate;
@@ -44,14 +42,11 @@ public class EditTermActivity extends AppCompatActivity {
     private EditText termStartDateInput;
     private EditText termEndDateInput;
     private RecyclerView courseRecyclerView;
-    private TextView emptyView;
 
     private TermDAO termDAO;
     private CourseDAO courseDAO;
     private int termId;
     private CheckBoxCourseRecyclerViewAdapter courseAdapter;
-
-    private StudentDatabase studentDatabase;
 
     private List<Course> allCourses;
     private Set<Integer> associatedCourseIds;
@@ -77,9 +72,8 @@ public class EditTermActivity extends AppCompatActivity {
         termStartDateInput = findViewById(R.id.termStartDateInput);
         termEndDateInput = findViewById(R.id.termEndDateInput);
         courseRecyclerView = findViewById(R.id.recyclerViewCourses);
-        emptyView = findViewById(R.id.noCoursesText);
 
-        studentDatabase = StudentDatabase.getInstance(getApplicationContext());
+        StudentDatabase studentDatabase = StudentDatabase.getInstance(getApplicationContext());
         termDAO = studentDatabase.termDAO();
         courseDAO = studentDatabase.courseDAO();
 
@@ -164,7 +158,7 @@ public class EditTermActivity extends AppCompatActivity {
         String endDateString = termEndDateInput.getText().toString();
 
         // Validate and parse start date
-        LocalDate updatedStartDate = null;
+        LocalDate updatedStartDate;
         try {
             updatedStartDate = LocalDate.parse(startDateString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
         } catch (DateTimeParseException e) {
@@ -174,7 +168,7 @@ public class EditTermActivity extends AppCompatActivity {
         }
 
         // Validate and parse end date
-        LocalDate updatedEndDate = null;
+        LocalDate updatedEndDate;
         try {
             updatedEndDate = LocalDate.parse(endDateString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
         } catch (DateTimeParseException e) {

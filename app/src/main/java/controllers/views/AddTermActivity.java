@@ -19,7 +19,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thomasmccue.c196pastudentapp.R;
 
 import java.time.LocalDate;
@@ -116,7 +115,7 @@ public class AddTermActivity extends AppCompatActivity {
         String endDateString = termEndInput.getText().toString();
 
         // Validate and parse start date
-        LocalDate startDate = null;
+        LocalDate startDate;
         try {
             startDate = LocalDate.parse(startDateString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
         } catch (DateTimeParseException e) {
@@ -126,7 +125,7 @@ public class AddTermActivity extends AppCompatActivity {
         }
 
         // Validate and parse end date
-        LocalDate endDate = null;
+        LocalDate endDate;
         try {
             endDate = LocalDate.parse(endDateString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
         } catch (DateTimeParseException e) {

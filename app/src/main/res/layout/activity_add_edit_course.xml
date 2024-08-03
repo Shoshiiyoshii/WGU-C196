@@ -171,7 +171,7 @@
                     android:layout_height="48dp"
                     android:layout_weight="1"
                     android:autofillHints="phone"
-                    android:hint="@string/instructor_phone_hint"
+                    android:hint="@string/phone_hint"
                     android:inputType="phone|number"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
             </LinearLayout>

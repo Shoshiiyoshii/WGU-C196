@@ -152,7 +152,7 @@
                     android:id="@+id/instructorPhone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/instructor_phone_hint"
+                    android:text="@string/phone_hint"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
             </LinearLayout>
 
@@ -215,6 +215,24 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:paddingTop="8dp" />
 
+<!-- Sharing -->
+            <TextView
+                android:id="@+id/share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/share_text"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                android:paddingTop="8dp" />
+
+            <EditText
+                android:id="@+id/shareInput"
+                android:layout_height="48dp"
+                android:layout_width="match_parent"
+                android:autofillHints="phone"
+                android:hint="@string/phone_hint"
+                android:inputType="phone|number"
+                android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
             <!-- Buttons -->
             <LinearLayout
                 android:layout_width="match_parent"
@@ -223,6 +241,14 @@
                 android:gravity="end"
                 android:padding="8dp">
 
+                <Button
+                    android:id="@+id/shareNoteButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_gravity="end"
+                    android:onClick="shareNoteButtonClicked"
+                    android:text="@string/share_button" />
                 <Button
                     android:id="@+id/courseEditButton"
                     android:layout_width="wrap_content"

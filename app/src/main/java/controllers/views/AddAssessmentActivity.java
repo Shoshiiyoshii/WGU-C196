@@ -24,29 +24,21 @@ import com.thomasmccue.c196pastudentapp.R;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import model.DAO.AssessmentDAO;
-import model.DAO.CourseDAO;
 import model.StudentDatabase;
 import model.entities.Assessment;
 
 
 public class AddAssessmentActivity extends AppCompatActivity {
     private EditText assessmentNameInput;
-    private Spinner typeSpinner;
     private String type;
     private EditText startDateInput;
     private EditText endDateInput;
 
     private StudentDatabase studentDatabase;
-    private AssessmentDAO assessmentDAO;
-    private CourseDAO courseDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +57,6 @@ public class AddAssessmentActivity extends AppCompatActivity {
         });
 
         studentDatabase = StudentDatabase.getInstance(getApplicationContext());
-        assessmentDAO = studentDatabase.assessmentDAO();
-        courseDAO = studentDatabase.courseDAO();
 
         // find UI elements
         assessmentNameInput = findViewById(R.id.assessmentNameInput);
@@ -107,7 +97,7 @@ public class AddAssessmentActivity extends AppCompatActivity {
     }
 
     private void setUpTypeSpinner() {
-        typeSpinner = findViewById(R.id.assessmentTypeSpinner);
+        Spinner typeSpinner = findViewById(R.id.assessmentTypeSpinner);
         // Set up course status drop down using ArrayAdapter
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
                 R.array.assessment_type_options, android.R.layout.simple_spinner_item);
@@ -132,7 +122,7 @@ public class AddAssessmentActivity extends AppCompatActivity {
         String endDateString = endDateInput.getText().toString();
 
         // Validate and parse start date
-        LocalDate startDate = null;
+        LocalDate startDate;
         try {
             startDate = LocalDate.parse(startDateString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
         } catch (DateTimeParseException e) {
@@ -142,7 +132,7 @@ public class AddAssessmentActivity extends AppCompatActivity {
         }
 
         // Validate and parse end date
-        LocalDate endDate = null;
+        LocalDate endDate;
         try {
             endDate = LocalDate.parse(endDateString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
         } catch (DateTimeParseException e) {

@@ -18,7 +18,6 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thomasmccue.c196pastudentapp.R;
 
 import java.time.LocalDate;
@@ -35,20 +34,15 @@ import model.entities.Assessment;
 public class EditAssessmentActivity extends AppCompatActivity {
     private int assessmentId;
     private EditText assessmentNameInput;
-    private String assessmentName;
 
     private Spinner assessmentTypeSpinner;
-    private String assessmentType;
     private String updatedType;
 
-    private long startDateLong;
-    private long endDateLong;
     private EditText startDateInput;
     private EditText endDateInput;
 
     private StudentDatabase studentDatabase;
     private AssessmentDAO assessmentDAO;
-    private Assessment assessment;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,10 +71,10 @@ public class EditAssessmentActivity extends AppCompatActivity {
         // Retrieve assessment details from intent
         Intent intent = getIntent();
         assessmentId = intent.getIntExtra("ASSESSMENT_ID", -1);
-        assessmentName = intent.getStringExtra("ASSESSMENT_TITLE");
-        assessmentType = intent.getStringExtra("ASSESSMENT_TYPE");
-        startDateLong = intent.getLongExtra("ASSESSMENT_START_DATE", -1);
-        endDateLong = intent.getLongExtra("ASSESSMENT_END_DATE", -1);
+        String assessmentName = intent.getStringExtra("ASSESSMENT_TITLE");
+        String assessmentType = intent.getStringExtra("ASSESSMENT_TYPE");
+        long startDateLong = intent.getLongExtra("ASSESSMENT_START_DATE", -1);
+        long endDateLong = intent.getLongExtra("ASSESSMENT_END_DATE", -1);
 
         // Populate the text inputs
         populateTextInputs(assessmentName, startDateLong, endDateLong);
@@ -165,7 +159,7 @@ public class EditAssessmentActivity extends AppCompatActivity {
         String updatedEndDateString = endDateInput.getText().toString();
 
         // Validate and parse start date
-        LocalDate updatedStartDate = null;
+        LocalDate updatedStartDate;
         try {
             updatedStartDate = LocalDate.parse(updatedStartDateString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
         } catch (DateTimeParseException e) {
@@ -175,7 +169,7 @@ public class EditAssessmentActivity extends AppCompatActivity {
         }
 
         // Validate and parse end date
-        LocalDate updatedEndDate = null;
+        LocalDate updatedEndDate;
         try {
             updatedEndDate = LocalDate.parse(updatedEndDateString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
         } catch (DateTimeParseException e) {

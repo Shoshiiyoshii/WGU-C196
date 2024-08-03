@@ -1,7 +1,7 @@
 package controllers.adapters;
 
 import android.content.Intent;
-import android.view.View;
+
 
 import model.entities.Course;
 import controllers.views.CourseDetailsActivity; // Make sure this import matches the actual path

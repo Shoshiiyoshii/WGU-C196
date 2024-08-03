@@ -38,12 +38,14 @@
     <string name="course_name">Course Name:</string>
     <string name="course_name_hint">Name this course</string>
     <string name="course_notes_hint">Add an optional note to this course.</string>
+    <string name="share_button">Share Course Note</string>
+    <string name="share_text">If you\'d like to share this course note via SMS, input a phone number and click \"Share Course Note\" below:</string>
     <string name="instructor_name">Instructor Name: </string>
     <string name="instructor_phone">Instructor Phone: </string>
     <string name="instructor_email">Instructor Email:</string>
     <string name="instructor_name_hint"> First and Last Name</string>
     <string name="instructor_email_hint">instructoremail@email.edu</string>
-    <string name="instructor_phone_hint">(xxx)xxx-xxxx</string>
+    <string name="phone_hint">(xxx)xxx-xxxx</string>
     <string name="no_courses_yet">No courses have been added yet</string>
     <string-array name="course_status">
         <item>In Progress</item>

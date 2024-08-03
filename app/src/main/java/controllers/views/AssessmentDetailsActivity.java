@@ -6,8 +6,6 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,25 +16,17 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thomasmccue.c196pastudentapp.R;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Objects;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
-import controllers.executors.CourseDetails;
-import controllers.executors.GetCourseDetails;
 import model.DAO.AssessmentDAO;
-import model.DAO.CourseDAO;
 import model.StudentDatabase;
 import model.entities.Assessment;
-import model.entities.Course;
 
 public class AssessmentDetailsActivity extends AppCompatActivity {
     private TextView assessmentName;
@@ -44,7 +34,6 @@ public class AssessmentDetailsActivity extends AppCompatActivity {
     private TextView startDateView;
     private TextView endDateView;
 
-    private StudentDatabase studentDatabase;
     private AssessmentDAO assessmentDAO;
     private Assessment assessment;
 
@@ -65,7 +54,7 @@ public class AssessmentDetailsActivity extends AppCompatActivity {
             return insets;
         });
 
-        studentDatabase = StudentDatabase.getInstance(getApplicationContext());
+        StudentDatabase studentDatabase = StudentDatabase.getInstance(getApplicationContext());
         assessmentDAO = studentDatabase.assessmentDAO();
 
 

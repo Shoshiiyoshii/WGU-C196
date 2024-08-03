@@ -1,15 +1,13 @@
 package controllers.views;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,7 +20,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thomasmccue.c196pastudentapp.R;
 
 import java.time.LocalDate;
@@ -35,19 +32,13 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-import controllers.adapters.CheckBoxAssessmentRecyclerViewAdapter;
 import controllers.adapters.ListAssessmentRecyclerViewAdapter;
-import controllers.adapters.ListCourseRecyclerViewAdapter;
-import controllers.executors.CourseDetails;
-import controllers.executors.GetCourseDetails;
-import controllers.executors.GetTermDetails;
-import controllers.executors.TermDetails;
+import controllers.helpers.CourseDetails;
+import controllers.helpers.GetCourseDetails;
 import model.DAO.AssessmentDAO;
 import model.DAO.CourseDAO;
-import model.DAO.TermDAO;
 import model.StudentDatabase;
 import model.entities.Assessment;
-import model.entities.Course;
 
 public class CourseDetailsActivity extends AppCompatActivity {
     private TextView courseTitle;
@@ -65,7 +56,6 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
     private TextView courseNote;
 
-    private StudentDatabase studentDatabase;
     private CourseDAO courseDAO;
     private AssessmentDAO assessmentDAO;
     private ListAssessmentRecyclerViewAdapter assessmentAdapter;
@@ -88,7 +78,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
             return insets;
         });
 
-        studentDatabase = StudentDatabase.getInstance(getApplicationContext());
+        StudentDatabase studentDatabase = StudentDatabase.getInstance(getApplicationContext());
         courseDAO = studentDatabase.courseDAO();
         assessmentDAO = studentDatabase.assessmentDAO();
 
@@ -194,6 +184,41 @@ public class CourseDetailsActivity extends AppCompatActivity {
         courseNote.setText(courseDetails.getCourse().getCourseNote());
     }
 
+    public void shareNoteButtonClicked(View view) {
+        String courseNote = courseDetails.getCourse().getCourseNote();
+        EditText shareInput = findViewById(R.id.shareInput);
+        String phoneNumber = shareInput.getText().toString();
+
+        // Check for empty input
+        if (phoneNumber.isEmpty()) {
+            shareInput.setError("Please enter a phone number to share.");
+            return;
+        }
+
+        // Remove all non-digit characters to normalize the phone number
+        String validPhoneNumber = phoneNumber.replaceAll("\\D", "");
+
+        // Check if the normalized phone number has an invalid length
+        if (validPhoneNumber.length() != 10) {
+            shareInput.setError("Invalid phone number");
+            return;
+        }
+
+        // Clear error if the input is valid
+        shareInput.setError(null);
+
+        Intent smsIntent = new Intent(Intent.ACTION_VIEW);
+        smsIntent.setData(Uri.parse("smsto:" + validPhoneNumber));
+        smsIntent.putExtra("sms_body", courseNote);
+
+        if (smsIntent.resolveActivity(getPackageManager()) != null) {
+            startActivity(smsIntent);
+        } else {
+            Toast.makeText(this, "No SMS app found", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
     public void courseEditButtonClicked(View view){
         Intent intent = new Intent(CourseDetailsActivity.this, EditCourseActivity.class);
         intent.putExtra("COURSE_ID", courseDetails.getCourse().getCourseId());
@@ -233,11 +258,9 @@ public class CourseDetailsActivity extends AppCompatActivity {
                 });
             } else {
                 // There are associated assessments, show error message
-                runOnUiThread(() -> {
-                    Toast.makeText(this, "Delete Failed. Please remove all " +
-                            "associated assessments before deleting this course",
-                            Toast.LENGTH_LONG).show();
-                });
+                runOnUiThread(() -> Toast.makeText(this, "Delete Failed. Please remove all " +
+                        "associated assessments before deleting this course",
+                        Toast.LENGTH_LONG).show());
             }
             executor.shutdown();
         });

@@ -10,7 +10,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +20,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thomasmccue.c196pastudentapp.R;
 
 import java.time.LocalDate;
@@ -36,7 +34,6 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import controllers.adapters.CheckBoxAssessmentRecyclerViewAdapter;
-import controllers.adapters.CheckBoxCourseRecyclerViewAdapter;
 import model.DAO.AssessmentDAO;
 import model.DAO.CourseDAO;
 import model.StudentDatabase;
@@ -68,8 +65,6 @@ public class EditCourseActivity extends AppCompatActivity {
     private EditText instructorEmailInput;
     private String instructorEmail;
 
-    private TextView emptyView;
-    private RecyclerView assessmentRecyclerView;
     private CheckBoxAssessmentRecyclerViewAdapter checkListAssessmentAdapter;
     private Set<Integer> associatedAssessmentIds;
     private List<Assessment> allAssessments;
@@ -77,7 +72,6 @@ public class EditCourseActivity extends AppCompatActivity {
     private EditText courseNotesInput;
     private String courseNote;
 
-    private StudentDatabase studentDatabase;
     private CourseDAO courseDAO;
     private AssessmentDAO assessmentDAO;
 
@@ -107,11 +101,10 @@ public class EditCourseActivity extends AppCompatActivity {
         instructorPhoneInput = findViewById(R.id.instructorPhoneInput);
         instructorEmailInput = findViewById(R.id.instructorEmailInput);
         courseNotesInput = findViewById(R.id.courseNotesInput);
-        emptyView = findViewById(R.id.noAssessmentsText);
-        assessmentRecyclerView = findViewById(R.id.recyclerViewAssessments);
+        RecyclerView assessmentRecyclerView = findViewById(R.id.recyclerViewAssessments);
 
         // Get app's database instance
-        studentDatabase = StudentDatabase.getInstance(getApplicationContext());
+        StudentDatabase studentDatabase = StudentDatabase.getInstance(getApplicationContext());
         courseDAO = studentDatabase.courseDAO();
         assessmentDAO = studentDatabase.assessmentDAO();
 
@@ -233,7 +226,7 @@ public class EditCourseActivity extends AppCompatActivity {
         String updatedInstructorEmail = instructorEmailInput.getText().toString();
         String updatedCourseNote = courseNotesInput.getText().toString();
 
-        LocalDate updatedStartDate = null;
+        LocalDate updatedStartDate;
         try {
             updatedStartDate = LocalDate.parse(updatedStartDateString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
         } catch (DateTimeParseException e) {
@@ -241,7 +234,7 @@ public class EditCourseActivity extends AppCompatActivity {
             return;
         }
 
-        LocalDate updatedEndDate = null;
+        LocalDate updatedEndDate;
         try {
             updatedEndDate = LocalDate.parse(updatedEndDateString, DateTimeFormatter.ofPattern("MM/dd/yyyy"));
         } catch (DateTimeParseException e) {
