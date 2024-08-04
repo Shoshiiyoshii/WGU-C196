@@ -34,6 +34,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import controllers.adapters.CheckBoxAssessmentRecyclerViewAdapter;
+import controllers.helpers.NotificationScheduler;
 import model.DAO.AssessmentDAO;
 import model.DAO.CourseDAO;
 import model.StudentDatabase;
@@ -266,6 +267,10 @@ public class EditCourseActivity extends AppCompatActivity {
             existingCourse.setCourseNote(updatedCourseNote);
 
             courseDAO.update(existingCourse);
+
+            //set notifications
+            NotificationScheduler notificationScheduler = new NotificationScheduler(getApplicationContext());
+            notificationScheduler.setCourseNotifications(existingCourse);
 
             // Update associated assessments with the new course ID
             Set<Assessment> selectedAssessments = checkListAssessmentAdapter.getSelectedAssessments();

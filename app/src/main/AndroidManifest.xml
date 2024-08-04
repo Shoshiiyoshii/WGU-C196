@@ -4,6 +4,7 @@
     <uses-feature
         android:name="android.hardware.telephony"
         android:required="false" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <application
         android:allowBackup="true"
@@ -61,6 +62,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name="controllers.helpers.NotificationReceiver" />
     </application>
     <queries>
         <intent>

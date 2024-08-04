@@ -28,6 +28,7 @@ import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import controllers.helpers.NotificationScheduler;
 import model.StudentDatabase;
 import model.entities.Assessment;
 
@@ -153,6 +154,10 @@ public class AddAssessmentActivity extends AppCompatActivity {
         // Insert course into database and update associated assessments
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
+            //set notifications
+            NotificationScheduler notificationScheduler = new NotificationScheduler(getApplicationContext());
+            notificationScheduler.setAssessmentNotifications(assessment);
+
             // Insert assessment into database
            studentDatabase.assessmentDAO().insert(assessment);
 

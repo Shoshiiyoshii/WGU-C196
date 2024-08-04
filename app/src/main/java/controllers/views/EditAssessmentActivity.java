@@ -27,6 +27,7 @@ import java.util.Objects;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import controllers.helpers.NotificationScheduler;
 import model.DAO.AssessmentDAO;
 import model.StudentDatabase;
 import model.entities.Assessment;
@@ -198,6 +199,10 @@ public class EditAssessmentActivity extends AppCompatActivity {
             existingAssessment.setAssessmentDueDate(finalUpdatedEndDate);
 
             studentDatabase.assessmentDAO().update(existingAssessment);
+
+            //set notifications
+            NotificationScheduler notificationScheduler = new NotificationScheduler(getApplicationContext());
+            notificationScheduler.setAssessmentNotifications(existingAssessment);
 
             // Update UI on the main thread
             runOnUiThread(() -> {

@@ -35,6 +35,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import controllers.adapters.CheckBoxAssessmentRecyclerViewAdapter;
+import controllers.helpers.NotificationScheduler;
 import model.StudentDatabase;
 import model.entities.Assessment;
 import model.entities.Course;
@@ -228,6 +229,10 @@ public class AddCourseActivity extends AppCompatActivity {
         // Insert course into database and update associated assessments
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
+            //set notifications
+            NotificationScheduler notificationScheduler = new NotificationScheduler(getApplicationContext());
+            notificationScheduler.setCourseNotifications(course);
+
             // Insert course into database and get the generated course ID
             long courseIdLong = studentDatabase.courseDAO().insert(course);
 
