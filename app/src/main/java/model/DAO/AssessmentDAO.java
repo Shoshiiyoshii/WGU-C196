@@ -18,7 +18,6 @@ public interface AssessmentDAO {
     @Update
     void update(Assessment assessment);
 
-
     @Delete
     void delete(Assessment assessment);
 
