@@ -8,7 +8,6 @@ import androidx.room.TypeConverter;
 
 public class MyTypeConverters {
 
-    //Using standard American date format
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
     //convert LocalDate to String to store in database
@@ -26,9 +25,7 @@ public class MyTypeConverters {
             try {
                 return LocalDate.parse(date, formatter);
             } catch (DateTimeParseException ignored) {
-
         }
-
         throw new IllegalArgumentException("Date format not supported: " + date);
     }
 }

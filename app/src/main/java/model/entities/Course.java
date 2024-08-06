@@ -93,7 +93,6 @@ public class Course {
 
 
     //mutators
-
     public void setCourseId(int courseId) {
         this.courseId = courseId;
     }

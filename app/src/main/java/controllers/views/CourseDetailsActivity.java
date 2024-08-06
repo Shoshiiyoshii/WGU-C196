@@ -67,22 +67,24 @@ public class CourseDetailsActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_course_details);
 
-        //set up Action Bar
+        // Set up Action Bar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.title_course_details);
 
+        // Insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+        // Database instance
         StudentDatabase studentDatabase = StudentDatabase.getInstance(getApplicationContext());
         courseDAO = studentDatabase.courseDAO();
         assessmentDAO = studentDatabase.assessmentDAO();
 
-        //find UI elements
+        // Find UI elements
         courseTitle = findViewById(R.id.courseTitle);
 
         courseStartDate = findViewById(R.id.courseStartDate);
@@ -97,7 +99,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
         emptyView = findViewById(R.id.noAssessmentsText);
         assessmentRecyclerView = findViewById(R.id.recyclerViewAssessments);
 
-        //set up recycler view for assessments and adapter
+        // Set up recycler view for assessments and adapter
         assessmentRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         assessmentAdapter = new ListAssessmentRecyclerViewAdapter();
         assessmentRecyclerView.setAdapter(assessmentAdapter);
@@ -111,7 +113,6 @@ public class CourseDetailsActivity extends AppCompatActivity {
             ExecutorService executor = Executors.newSingleThreadExecutor();
             Future<CourseDetails> future = executor.submit(new GetCourseDetails(courseDAO, courseId, assessmentDAO));
             try {
-                // This will block until the task completes and returns the result
                 CourseDetails courseDetails = future.get();
                 // Update the UI on the main thread
                 runOnUiThread(() -> displayCourseDetails(courseDetails));
@@ -125,7 +126,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu resource into the Toolbar
+        // Inflate the navigation menu
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.nav_menu, menu);
         return true;
@@ -133,7 +134,7 @@ public class CourseDetailsActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection from the menu
+        // Handle item selection nav menu
         if (item.getItemId() == R.id.nav_home) {
             startActivity(new Intent(CourseDetailsActivity.this, MainActivity.class));
             return true;
@@ -195,16 +196,16 @@ public class CourseDetailsActivity extends AppCompatActivity {
             return;
         }
 
-        // Remove all non-digit characters to normalize the phone number
+        // Remove all non-digit characters from phone number using regex
         String validPhoneNumber = phoneNumber.replaceAll("\\D", "");
 
-        // Check if the normalized phone number has an invalid length
+        // Check phone number length s valid
         if (validPhoneNumber.length() != 10) {
             shareInput.setError("Invalid phone number");
             return;
         }
 
-        // Clear error if the input is valid
+        // Clear error if phone number is valid
         shareInput.setError(null);
 
         Intent smsIntent = new Intent(Intent.ACTION_VIEW);

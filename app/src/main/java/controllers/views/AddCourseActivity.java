@@ -66,7 +66,7 @@ public class AddCourseActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_edit_course);
 
-        //set up Action Bar
+        // Set up Action Bar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.course_add);
@@ -81,7 +81,7 @@ public class AddCourseActivity extends AppCompatActivity {
         // Get app's database instance
         studentDatabase = StudentDatabase.getInstance(getApplicationContext());
 
-        //find other UI elements
+        // Find UI elements
         courseNameInput = findViewById(R.id.courseNameInput);
         courseStartDateInput = findViewById(R.id.courseStartDateInput);
         courseEndDateInput = findViewById(R.id.courseEndDateInput);
@@ -108,7 +108,7 @@ public class AddCourseActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu resource into the Toolbar
+        // Inflate the navigation menu
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.nav_menu, menu);
         return true;
@@ -116,7 +116,7 @@ public class AddCourseActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection from the menu
+        // Handle item selection in nav menu
         if (item.getItemId() == R.id.nav_home) {
             startActivity(new Intent(AddCourseActivity.this, MainActivity.class));
             return true;
@@ -184,7 +184,7 @@ public class AddCourseActivity extends AppCompatActivity {
         } catch (DateTimeParseException e) {
             // Handle invalid start date format
             courseStartDateInput.setError("Invalid date format. Please use MM/DD/YYYY.");
-            return; // Exit the click listener
+            return; // if invalid, exit
         }
 
         // Validate and parse end date
@@ -194,13 +194,13 @@ public class AddCourseActivity extends AppCompatActivity {
         } catch (DateTimeParseException e) {
             // Handle invalid end date format
             courseEndDateInput.setError("Invalid date format. Please use MM/DD/YYYY.");
-            return; // Exit the click listener
+            return; // if invalid, exit
         }
 
         //Validate dates are after one another and valid
         if (startDate.isAfter(endDate)) {
             courseEndDateInput.setError("End date must be after start date.");
-            return; // Exit the click listener
+            return; // if invalid, exit
         }
 
         String instructorName = instructorNameInput.getText().toString();
@@ -209,14 +209,14 @@ public class AddCourseActivity extends AppCompatActivity {
         // Validate email format
         if (!Patterns.EMAIL_ADDRESS.matcher(instructorEmail).matches()) {
             instructorEmailInput.setError("Invalid email format.");
-            return; // Exit the click listener
+            return; // if invalid, exit
         }
 
         String instructorPhone = instructorPhoneInput.getText().toString();
         // Validate phone number format
         if (!instructorPhone.matches("\\(\\d{3}\\)\\d{3}-\\d{4}")) {
             instructorPhoneInput.setError("Invalid phone number format. Please use (xxx)xxx-xxxx.");
-            return; // Exit the click listener
+            return; // if invalid, exit
         }
 
         String courseNote = courseNotesInput.getText().toString();
@@ -229,7 +229,7 @@ public class AddCourseActivity extends AppCompatActivity {
         // Insert course into database and update associated assessments
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
-            //set notifications
+            // Set notifications
             NotificationScheduler notificationScheduler = new NotificationScheduler(getApplicationContext());
             notificationScheduler.setCourseNotifications(course);
 

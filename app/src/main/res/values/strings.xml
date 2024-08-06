@@ -2,7 +2,7 @@
 
     <string name="app_name">Organized Owl</string>
 
-    <!-- Copy for home/main screen -->
+    <!-- Copy For Home/Main Screen -->
     <string name="title_home">Home</string>
     <string name="main_intro">Hello Student! Welcome! This is an app to help you track and
         manage your Terms, Courses, and Assessments. </string>
@@ -10,7 +10,7 @@
     <string name="main_course_button">Go To Courses</string>
     <string name="main_assessments_button">Go To Assessments</string>
 
-    <!-- Copy for term screens -->
+    <!-- Copy For Term Screens -->
     <string name="title_terms">Terms</string>
     <string name="title_term_details">Details for Selected Term</string>
     <string name="terms_edit_title">Edit Term</string>
@@ -25,7 +25,7 @@
     <string name="no_terms_yet">No terms have been added yet</string>
 
 
-    <!-- Copy for courses screens -->
+    <!-- Copy For Courses Screens -->
     <string name="title_courses">Courses</string>
     <string name="title_course_details">Details for Selected Course</string>
     <string name="associated_courses">Associated Courses:</string>
@@ -54,7 +54,7 @@
         <item>Dropped</item>
     </string-array>
 
-    <!-- Copy for assessments screens -->
+    <!-- Copy For Assessments Screens -->
     <string name="title_assessments">Assessments</string>
     <string name="title_assessment_details">Details for Selected Assessment</string>
     <string name="associated_assessments">Select this courses assessments: </string>
@@ -74,7 +74,7 @@
     </string-array>
 
 
-    <!-- Copy for the details screens -->
+    <!-- Copy For The Details Screens -->
     <string name="start">Start Date: </string>
     <string name="end">End Date: </string>
     <string name="date_placeholder">MM/DD/YYYY</string>
@@ -83,8 +83,6 @@
     <string name="delete_button">Delete</string>
     <string name="save_button">Save Changes</string>
     <string name="discard_button">Discard Changes</string>
-
-
 
     <string name="status">Status: </string>
     <string name="in_progress">In Progress</string>

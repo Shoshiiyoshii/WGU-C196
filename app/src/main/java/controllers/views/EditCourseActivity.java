@@ -146,7 +146,6 @@ public class EditCourseActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu resource into the Toolbar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.nav_menu, menu);
         return true;
@@ -154,7 +153,6 @@ public class EditCourseActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection from the menu
         if (item.getItemId() == R.id.nav_home) {
             startActivity(new Intent(EditCourseActivity.this, MainActivity.class));
             return true;
@@ -268,7 +266,7 @@ public class EditCourseActivity extends AppCompatActivity {
 
             courseDAO.update(existingCourse);
 
-            //set notifications
+            // Set notifications
             NotificationScheduler notificationScheduler = new NotificationScheduler(getApplicationContext());
             notificationScheduler.setCourseNotifications(existingCourse);
 
@@ -296,7 +294,7 @@ public class EditCourseActivity extends AppCompatActivity {
                 }
             }
 
-            // Notify user and return to course activity
+            // Notify user and return to course activity on UI thread
             runOnUiThread(() -> {
                 Toast.makeText(this, "Course Updated Successfully", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(EditCourseActivity.this, CourseActivity.class);

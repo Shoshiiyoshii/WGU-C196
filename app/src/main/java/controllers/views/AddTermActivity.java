@@ -52,19 +52,19 @@ public class AddTermActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_edit_term);
 
-        //set up Action Bar
+        // Set up Action Bar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.term_add);
 
-        //allow for insets
+        // Allow for insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
-        //find and set up recyclerView
+        // Find and set up recyclerView
         emptyView = findViewById(R.id.noCoursesText);
         courseRecyclerView = findViewById(R.id.recyclerViewCourses);
         courseRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -72,7 +72,7 @@ public class AddTermActivity extends AppCompatActivity {
         courseRecyclerView.setAdapter(checkListCourseAdapter);
         courseListSetUp();
 
-        //get apps database instance
+        // Get apps database instance
         studentDatabase = StudentDatabase.getInstance(getApplicationContext());
 
         // Find text input and save button
@@ -83,7 +83,7 @@ public class AddTermActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu resource into the Toolbar
+        // Inflate the navigation menu
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.nav_menu, menu);
         return true;
@@ -91,7 +91,7 @@ public class AddTermActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection from the menu
+        // Handle item selection in nav menu
         if (item.getItemId() == R.id.nav_home) {
             startActivity(new Intent(AddTermActivity.this, MainActivity.class));
             return true;
@@ -121,7 +121,7 @@ public class AddTermActivity extends AppCompatActivity {
         } catch (DateTimeParseException e) {
             // Handle invalid start date format
             termStartInput.setError("Invalid date format. Please use MM/DD/YYYY.");
-            return; // Exit the click listener
+            return; // if date is invalid, exit click listener
         }
 
         // Validate and parse end date
@@ -131,16 +131,16 @@ public class AddTermActivity extends AppCompatActivity {
         } catch (DateTimeParseException e) {
             // Handle invalid end date format
             termEndInput.setError("Invalid date format. Please use MM/DD/YYYY.");
-            return; // Exit the click listener
+            return; // if date is invalid, exit click listener
         }
 
         //Validate dates are after one another and valid
         if (startDate.isAfter(endDate)) {
             termEndInput.setError("End date must be after start date.");
-            return; // Exit the click listener
+            return; // if date is invalid, exit click listener
         }
 
-        // make term object
+        // Make term object
         Term term = new Term(name, startDate, endDate);
 
         // Insert term into database and update associated courses

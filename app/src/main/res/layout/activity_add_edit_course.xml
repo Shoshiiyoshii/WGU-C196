@@ -21,6 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- Scrollable Content For Rotating Layout-->
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="0dp"
@@ -199,7 +200,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
             </LinearLayout>
 
-            <!-- Assessments -->
+            <!-- Associated Assessments -->
             <TextView
                 android:id="@+id/associatedAssessments"
                 android:layout_width="wrap_content"
@@ -225,7 +226,7 @@
                 android:layout_height="wrap_content"
                 tools:listitem="@layout/list_item" />
 
-            <!-- Notes -->
+            <!-- Course Notes -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

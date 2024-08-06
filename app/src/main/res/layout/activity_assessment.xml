@@ -8,7 +8,7 @@
     tools:context="controllers.views.AssessmentActivity">
 
 
-    <!-- Fixed Action Bar -->
+    <!-- Action Bar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -22,7 +22,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Main content in ScrollView -->
+    <!-- Scrollable Content For Rotating Layout-->
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"

@@ -59,7 +59,7 @@ public class AddAssessmentActivity extends AppCompatActivity {
 
         studentDatabase = StudentDatabase.getInstance(getApplicationContext());
 
-        // find UI elements
+        // Find UI elements
         assessmentNameInput = findViewById(R.id.assessmentNameInput);
 
         setUpTypeSpinner();
@@ -71,7 +71,7 @@ public class AddAssessmentActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu resource into the Toolbar
+        // Inflate the navigation menu
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.nav_menu, menu);
         return true;
@@ -79,7 +79,7 @@ public class AddAssessmentActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection from the menu
+        // Handle item selection from the nav menu
         if (item.getItemId() == R.id.nav_home) {
             startActivity(new Intent(AddAssessmentActivity.this, MainActivity.class));
             return true;
@@ -129,7 +129,7 @@ public class AddAssessmentActivity extends AppCompatActivity {
         } catch (DateTimeParseException e) {
             // Handle invalid start date format
             startDateInput.setError("Invalid date format. Please use MM/DD/YYYY.");
-            return; // Exit the click listener
+            return; // if invalid, exit
         }
 
         // Validate and parse end date
@@ -139,13 +139,13 @@ public class AddAssessmentActivity extends AppCompatActivity {
         } catch (DateTimeParseException e) {
             // Handle invalid end date format
             endDateInput.setError("Invalid date format. Please use MM/DD/YYYY.");
-            return; // Exit the click listener
+            return; // if invalid, exit
         }
 
         //Validate dates are after one another and valid
         if (startDate.isAfter(endDate)) {
             endDateInput.setError("End date must be after start date.");
-            return; // Exit the click listener
+            return; // if invalid, exit
         }
 
         // Create a new Assessment object, courseId will be null until assigned in CourseEditActivity
@@ -154,7 +154,7 @@ public class AddAssessmentActivity extends AppCompatActivity {
         // Insert course into database and update associated assessments
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
-            //set notifications
+            // Set notifications
             NotificationScheduler notificationScheduler = new NotificationScheduler(getApplicationContext());
             notificationScheduler.setAssessmentNotifications(assessment);
 

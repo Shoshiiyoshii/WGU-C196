@@ -69,7 +69,6 @@ public class Assessment {
     }
 
     //mutators
-
     public void setAssessmentId (int assessmentId) {
         this.assessmentId = assessmentId;
     }

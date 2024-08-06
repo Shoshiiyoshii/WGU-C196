@@ -38,7 +38,7 @@ public class CourseActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_course);
 
-        //set up Action Bar
+        // Set up Action Bar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.title_courses);
@@ -66,7 +66,7 @@ public class CourseActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu resource into the Toolbar
+        // Inflate the navigation menu
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.nav_menu, menu);
         return true;
@@ -74,7 +74,7 @@ public class CourseActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection from the menu
+        // Handle item selection for nav menu
         if (item.getItemId() == R.id.nav_home) {
             startActivity(new Intent(CourseActivity.this, MainActivity.class));
             return true;

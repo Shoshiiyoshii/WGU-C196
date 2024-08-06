@@ -56,12 +56,12 @@ public class EditTermActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_term);
 
-        //set up Action Bar
+        // Set up Action Bar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.terms_edit_title);
 
-        //allow for insets
+        // Insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -93,7 +93,6 @@ public class EditTermActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu resource into the Toolbar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.nav_menu, menu);
         return true;
@@ -101,7 +100,6 @@ public class EditTermActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection from the menu
         if (item.getItemId() == R.id.nav_home) {
             startActivity(new Intent(EditTermActivity.this, MainActivity.class));
             return true;
@@ -164,7 +162,7 @@ public class EditTermActivity extends AppCompatActivity {
         } catch (DateTimeParseException e) {
             // Handle invalid start date format
             termStartDateInput.setError("Invalid date format. Please use MM/DD/YYYY.");
-            return; // Exit the click listener
+            return; // Exit if invalid
         }
 
         // Validate and parse end date
@@ -174,13 +172,13 @@ public class EditTermActivity extends AppCompatActivity {
         } catch (DateTimeParseException e) {
             // Handle invalid end date format
             termEndDateInput.setError("Invalid date format. Please use MM/DD/YYYY.");
-            return; // Exit the click listener
+            return; // Exit if invalid
         }
 
         // Validate dates are after one another and valid
         if (updatedStartDate.isAfter(updatedEndDate)) {
             termEndDateInput.setError("End date must be after start date.");
-            return; // Exit the click listener
+            return; // Exit if invalid
         }
 
         // Lambda wants final variables

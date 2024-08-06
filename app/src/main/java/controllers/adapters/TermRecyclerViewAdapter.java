@@ -17,12 +17,12 @@ import java.util.List;
 import controllers.views.TermDetailsActivity;
 import model.entities.Term;
 
-//a class to bind term data to the appropriate recycler.
+// A class to bind term data to the appropriate recycler.
 public class TermRecyclerViewAdapter extends RecyclerView.Adapter<TermRecyclerViewAdapter.TermViewHolder> {
     private List<Term> terms = new ArrayList<>();
 
-    //creates the layout in list_item for each item in the ArrayList or terms so that it can be displayed in
-    //the terms recycle Controllers in the correct format
+    // Creates the layout in list_item for each item in the ArrayList or terms so that it can be displayed in
+    // the terms recycle Controllers in the correct format
     @NonNull
     @Override
     public TermViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -31,7 +31,7 @@ public class TermRecyclerViewAdapter extends RecyclerView.Adapter<TermRecyclerVi
         return new TermViewHolder(itemView);
     }
 
-    //sets each item in the recycler Controllers to show the title of the term that is bound to it
+    // Sets each item in the recycler Controllers to show the title of the term that is bound to it
     @Override
     public void onBindViewHolder(@NonNull TermViewHolder holder, int position) {
         Term currentTerm = terms.get(position);
@@ -47,13 +47,13 @@ public class TermRecyclerViewAdapter extends RecyclerView.Adapter<TermRecyclerVi
     }
 
 
-    //gets how many terms are in the ArrayList
+    // Gets how many terms are in the ArrayList
     @Override
     public int getItemCount() {
         return terms.size();
     }
 
-    //resets the terms ArrayList so that it has the most current terms after a new term is added?
+    // Resets the terms ArrayList so that it has the most current terms after a new term is added?
     public void setTerms(List<Term> terms) {
         this.terms = terms;
         notifyDataSetChanged();

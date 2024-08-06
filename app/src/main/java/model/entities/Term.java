@@ -1,13 +1,9 @@
 package model.entities;
 
-import android.util.Log;
-
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 import androidx.room.ColumnInfo;
-
 import java.time.LocalDate;
-
 
 @Entity(tableName = "terms")
 public class Term {
@@ -29,6 +25,7 @@ public class Term {
         this.startDate = startDate;
         this.endDate = endDate;
     }
+
     //accessors
     public int getTermId() {
         return termId;
@@ -47,7 +44,6 @@ public class Term {
     }
 
     //mutators
-
     public void setTermId(int termId) {
         this.termId = termId;
     }

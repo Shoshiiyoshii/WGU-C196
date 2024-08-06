@@ -56,28 +56,29 @@ public class TermDetailsActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_term_details);
 
-        //set up Action Bar
+        // Set up Action Bar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.title_term_details);
 
-
+        // Insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
 
+        // get database instance
         StudentDatabase studentDatabase = StudentDatabase.getInstance(getApplicationContext());
         termDAO = studentDatabase.termDAO();
         courseDAO = studentDatabase.courseDAO();
 
+        // Find UI
         title = findViewById(R.id.termTitle);
         termStart = findViewById(R.id.termStartDate);
         termEnd = findViewById(R.id.termEndDate);
         courseRecycler = findViewById(R.id.recyclerViewCourses);
         emptyView = findViewById(R.id.noCoursesText);
-
 
         courseAdapter = new ListCourseRecyclerViewAdapter();
         courseRecycler.setLayoutManager(new LinearLayoutManager(this));
@@ -103,7 +104,7 @@ public class TermDetailsActivity extends AppCompatActivity {
 
         @Override
         public boolean onCreateOptionsMenu(Menu menu) {
-            // Inflate the menu resource into the Toolbar
+            // Inflate the navigation menu
             MenuInflater inflater = getMenuInflater();
             inflater.inflate(R.menu.nav_menu, menu);
             return true;
@@ -111,7 +112,7 @@ public class TermDetailsActivity extends AppCompatActivity {
 
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
-            // Handle item selection from the menu
+            // Handle item selection from nav menu
             if (item.getItemId() == R.id.nav_home) {
                 startActivity(new Intent(TermDetailsActivity.this, MainActivity.class));
                 return true;
@@ -146,7 +147,7 @@ public class TermDetailsActivity extends AppCompatActivity {
     }
 
     public void termDeleteButtonClicked(View view) {
-        // Execute database operations on a background thread
+        // Execute database operations on a background thread using executor service
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
             // Check if there are any associated courses
@@ -173,6 +174,7 @@ public class TermDetailsActivity extends AppCompatActivity {
     }
 
 
+    // display details for passed term
     public void displayTermDetails(TermDetails termDetails){
         this.termDetails = termDetails;
         courseAdapter.setCourses(termDetails.getCourses());

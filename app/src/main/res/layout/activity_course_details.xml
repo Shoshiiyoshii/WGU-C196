@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context="controllers.views.CourseDetailsActivity">
 
-    <!-- Fixed Action Bar -->
+    <!-- Action Bar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Scrollable content -->
+    <!-- Scrollable Content For Rotating Layout-->
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -175,7 +175,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
             </LinearLayout>
 
-            <!-- Assessments -->
+            <!-- Associated Assessments -->
             <TextView
                 android:id="@+id/associatedAssessments"
                 android:layout_width="wrap_content"
@@ -201,7 +201,7 @@
                 android:layout_height="wrap_content"
                 tools:listitem="@layout/list_item" />
 
-            <!-- Notes -->
+            <!-- Course Notes -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -215,7 +215,7 @@
                 android:textAppearance="@style/TextAppearance.AppCompat.Body1"
                 android:paddingTop="8dp" />
 
-<!-- Sharing -->
+            <!-- Course Sharing Phone Number Input-->
             <TextView
                 android:id="@+id/share"
                 android:layout_width="wrap_content"

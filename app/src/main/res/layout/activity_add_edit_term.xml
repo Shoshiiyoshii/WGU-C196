@@ -21,7 +21,7 @@
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintEnd_toEndOf="parent" />
 
-  <!-- Main content in ScrollView -->
+  <!-- Scrollable Content For Rotating Layout-->
   <ScrollView
       android:layout_width="0dp"
       android:layout_height="0dp"
@@ -108,7 +108,7 @@
             android:paddingStart="16dp" />
       </LinearLayout>
 
-      <!-- Instructions -->
+      <!-- Instructions For Associating Courses -->
       <TextView
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
@@ -145,7 +145,7 @@
           android:layout_weight="1"
           tools:listitem="@layout/list_item" />
 
-      <!-- Save and Discard Buttons -->
+      <!-- Buttons -->
       <LinearLayout
           android:layout_width="match_parent"
           android:layout_height="wrap_content"

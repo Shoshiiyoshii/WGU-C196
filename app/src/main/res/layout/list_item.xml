@@ -5,6 +5,7 @@
     android:layout_margin="8dp"
     android:orientation="horizontal">
 
+    <!-- Check Box to Associate Courses or Assessments -->
     <CheckBox
         android:id="@+id/checkBox"
         android:layout_width="wrap_content"
@@ -13,6 +14,7 @@
         android:paddingEnd="16dp"
         android:visibility="gone"/>
 
+    <!-- Item Name -->
     <TextView
         android:id="@+id/itemName"
         android:layout_width="wrap_content"

@@ -67,7 +67,7 @@ public class AssessmentActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu resource into the Toolbar
+        // Inflate the navigation menu
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.nav_menu, menu);
         return true;
@@ -75,7 +75,7 @@ public class AssessmentActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection from the menu
+        // Handle item selection from nav menu
         if (item.getItemId() == R.id.nav_home) {
             startActivity(new Intent(AssessmentActivity.this, MainActivity.class));
             return true;

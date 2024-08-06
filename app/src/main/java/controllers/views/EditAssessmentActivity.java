@@ -49,11 +49,12 @@ public class EditAssessmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_edit_assessment);
 
+        // Set up action bar
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         Objects.requireNonNull(getSupportActionBar()).setTitle(R.string.assessment_edit);
 
-        // Allow for insets
+        // Insets
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -86,7 +87,6 @@ public class EditAssessmentActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu resource into the Toolbar
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.nav_menu, menu);
         return true;
@@ -94,7 +94,6 @@ public class EditAssessmentActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection from the menu
         if (item.getItemId() == R.id.nav_home) {
             startActivity(new Intent(EditAssessmentActivity.this, MainActivity.class));
             return true;
@@ -121,12 +120,12 @@ public class EditAssessmentActivity extends AppCompatActivity {
         // Set the spinner to this assessments type
         if (assessmentType != null) {
             int position = adapter.getPosition(assessmentType);
-            if (position >= 0) { // Ensure the position is valid
+            if (position >= 0) {
                 assessmentTypeSpinner.setSelection(position);
             }
         }
 
-        // set listener for type selection
+        // Set listener for type selection
         assessmentTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -166,7 +165,7 @@ public class EditAssessmentActivity extends AppCompatActivity {
         } catch (DateTimeParseException e) {
             // Handle invalid start date format
             startDateInput.setError("Invalid date format. Please use MM/DD/YYYY.");
-            return; // Exit the click listener
+            return; // Exit if invalid
         }
 
         // Validate and parse end date
@@ -176,13 +175,13 @@ public class EditAssessmentActivity extends AppCompatActivity {
         } catch (DateTimeParseException e) {
             // Handle invalid end date format
             endDateInput.setError("Invalid date format. Please use MM/DD/YYYY.");
-            return; // Exit the click listener
+            return; // Exit if invalid
         }
 
         //Validate dates are after one another and valid
         if (updatedStartDate.isAfter(updatedEndDate)) {
             endDateInput.setError("End date must be after start date.");
-            return; // Exit the click listener
+            return; // Exit if invalid
         }
 
         // Insert course into database and update associated assessments
@@ -200,7 +199,7 @@ public class EditAssessmentActivity extends AppCompatActivity {
 
             studentDatabase.assessmentDAO().update(existingAssessment);
 
-            //set notifications
+            // Set notifications
             NotificationScheduler notificationScheduler = new NotificationScheduler(getApplicationContext());
             notificationScheduler.setAssessmentNotifications(existingAssessment);
 

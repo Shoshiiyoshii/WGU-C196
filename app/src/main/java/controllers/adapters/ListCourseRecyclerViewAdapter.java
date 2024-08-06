@@ -4,7 +4,7 @@ import android.content.Intent;
 
 
 import model.entities.Course;
-import controllers.views.CourseDetailsActivity; // Make sure this import matches the actual path
+import controllers.views.CourseDetailsActivity;
 
 public class ListCourseRecyclerViewAdapter extends BaseCourseRecyclerViewAdapter {
     @Override

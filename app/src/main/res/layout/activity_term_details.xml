@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     tools:context="controllers.views.TermDetailsActivity">
 
-    <!-- Fixed Action Bar -->
+    <!-- Action Bar -->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="0dp"
@@ -21,7 +21,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <!-- Main content in ScrollView -->
+    <!-- Scrollable Content For Rotating Layout-->
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -105,7 +105,7 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
             </LinearLayout>
 
-            <!-- Term Courses -->
+            <!-- Associated Courses -->
             <TextView
                 android:id="@+id/termCoursesLabel"
                 android:layout_width="wrap_content"
@@ -132,7 +132,7 @@
                 app:layout_constraintBottom_toTopOf="@id/buttonsLayout"
                 tools:listitem="@layout/list_item" />
 
-            <!-- Edit and Delete Buttons -->
+            <!-- Buttons -->
             <LinearLayout
                 android:id="@+id/buttonsLayout"
                 android:layout_width="match_parent"
