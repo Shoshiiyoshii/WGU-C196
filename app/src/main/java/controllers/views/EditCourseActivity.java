@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -49,9 +50,13 @@ public class EditCourseActivity extends AppCompatActivity {
 
     private EditText courseStartDateInput;
     private long startDateLong;
+    private SwitchCompat courseStartNotificationSwitch;
+    private boolean turnStartNotificationOn;
 
     private EditText courseEndDateInput;
     private long endDateLong;
+    private SwitchCompat courseEndNotificationSwitch;
+    private boolean turnEndNotificationOn;
 
     private Spinner courseStatusSpinner;
     private String status;
@@ -96,7 +101,15 @@ public class EditCourseActivity extends AppCompatActivity {
         // Initialize UI elements
         courseNameInput = findViewById(R.id.courseNameInput);
         courseStartDateInput = findViewById(R.id.courseStartDateInput);
+        courseStartNotificationSwitch = findViewById(R.id.courseStartNotificationSwitch);
+        // Set up listener for start notification switch
+        setupStartNotificationSwitchListener();
+
         courseEndDateInput = findViewById(R.id.courseEndDateInput);
+        courseEndNotificationSwitch = findViewById(R.id.courseEndNotificationSwitch);
+        // Set up listener for end notification switch
+        setupEndNotificationSwitchListener();
+
         courseStatusSpinner = findViewById(R.id.courseStatusSpinner);
         instructorNameInput = findViewById(R.id.instructorNameInput);
         instructorPhoneInput = findViewById(R.id.instructorPhoneInput);
@@ -216,6 +229,28 @@ public class EditCourseActivity extends AppCompatActivity {
         courseNotesInput.setText(courseNote);
     }
 
+    private void setupStartNotificationSwitchListener() {
+        // Set initial state
+        courseStartNotificationSwitch.setChecked(false);
+
+        // Set a listener to detect changes
+        courseStartNotificationSwitch.setOnCheckedChangeListener((buttonView, notificationsOn) -> {
+            // Switch is on or switch is off
+            turnStartNotificationOn = notificationsOn;
+        });
+    }
+
+    private void setupEndNotificationSwitchListener() {
+        // Set initial state
+        courseEndNotificationSwitch.setChecked(false);
+
+        // Set a listener to detect changes
+        courseEndNotificationSwitch.setOnCheckedChangeListener((buttonView, notificationsOn) -> {
+            // Switch is on or switch is off
+            turnEndNotificationOn = notificationsOn;
+        });
+    }
+
     public void courseSaveButtonClicked(View view) {
         String updatedCourseName = courseNameInput.getText().toString();
         String updatedStartDateString = courseStartDateInput.getText().toString();
@@ -266,9 +301,23 @@ public class EditCourseActivity extends AppCompatActivity {
 
             courseDAO.update(existingCourse);
 
-            // Set notifications
             NotificationScheduler notificationScheduler = new NotificationScheduler(getApplicationContext());
-            notificationScheduler.setCourseNotifications(existingCourse);
+
+            if(turnStartNotificationOn) {
+                // Set start notifications on
+                notificationScheduler.setCourseStartNotificationOn(existingCourse);
+            }else{
+                // Turn start notifications off
+                notificationScheduler.setCourseStartNotificationOff(existingCourse);
+            }
+
+            if(turnEndNotificationOn) {
+                // Set end notifications on
+                notificationScheduler.setCourseEndNotificationOn(existingCourse);
+            }else{
+                // Turn end notifications off
+                notificationScheduler.setCourseEndNotificationOff(existingCourse);
+            }
 
             // Update associated assessments with the new course ID
             Set<Assessment> selectedAssessments = checkListAssessmentAdapter.getSelectedAssessments();

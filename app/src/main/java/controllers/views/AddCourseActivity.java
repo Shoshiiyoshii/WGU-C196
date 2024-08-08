@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -42,8 +43,14 @@ import model.entities.Course;
 
 public class AddCourseActivity extends AppCompatActivity {
     private EditText courseNameInput;
+
     private EditText courseStartDateInput;
+    private SwitchCompat courseStartNotificationSwitch;
+    private boolean turnStartNotificationOn;
+
     private EditText courseEndDateInput;
+    private SwitchCompat courseEndNotificationSwitch;
+    private boolean turnEndNotificationOn;
     
     private Spinner courseStatusSpinner;
     private String status;
@@ -83,8 +90,14 @@ public class AddCourseActivity extends AppCompatActivity {
 
         // Find UI elements
         courseNameInput = findViewById(R.id.courseNameInput);
+
         courseStartDateInput = findViewById(R.id.courseStartDateInput);
+        courseStartNotificationSwitch = findViewById(R.id.courseStartNotificationSwitch);
+        setupStartNotificationSwitchListener();
+
         courseEndDateInput = findViewById(R.id.courseEndDateInput);
+        courseEndNotificationSwitch = findViewById(R.id.courseEndNotificationSwitch);
+        setupEndNotificationSwitchListener();
 
         courseStatusSpinner = findViewById(R.id.courseStatusSpinner);
 
@@ -150,6 +163,28 @@ public class AddCourseActivity extends AppCompatActivity {
             });
 
             executor.shutdown();
+        });
+    }
+
+    private void setupStartNotificationSwitchListener() {
+        // Set initial state
+        courseStartNotificationSwitch.setChecked(false);
+
+        // Set a listener to detect changes
+        courseStartNotificationSwitch.setOnCheckedChangeListener((buttonView, notificationsOn) -> {
+            // Switch is on or switch is off
+            turnStartNotificationOn = notificationsOn;
+        });
+    }
+
+    private void setupEndNotificationSwitchListener() {
+        // Set initial state
+        courseEndNotificationSwitch.setChecked(false);
+
+        // Set a listener to detect changes
+        courseEndNotificationSwitch.setOnCheckedChangeListener((buttonView, notificationsOn) -> {
+            // Switch is on or switch is off
+            turnEndNotificationOn = notificationsOn;
         });
     }
 
@@ -229,21 +264,35 @@ public class AddCourseActivity extends AppCompatActivity {
         // Insert course into database and update associated assessments
         ExecutorService executor = Executors.newSingleThreadExecutor();
         executor.execute(() -> {
-            // Set notifications
-            NotificationScheduler notificationScheduler = new NotificationScheduler(getApplicationContext());
-            notificationScheduler.setCourseNotifications(course);
-
             // Insert course into database and get the generated course ID
             long courseIdLong = studentDatabase.courseDAO().insert(course);
 
-            // Cast courseIdLong to int
-            int courseId = (int) courseIdLong;
+            course.setCourseId((int) courseIdLong);
 
             // Update associated assessments with the new course ID
             Set<Assessment> selectedAssessments = checkListAssessmentAdapter.getSelectedAssessments();
             for (Assessment assessment : selectedAssessments) {
-                assessment.setCourseId(courseId);
+                assessment.setCourseId(course.getCourseId());
                 studentDatabase.assessmentDAO().update(assessment);
+            }
+
+            // Set notifications
+            NotificationScheduler notificationScheduler = new NotificationScheduler(getApplicationContext());
+
+            if(turnStartNotificationOn) {
+                // Set start notifications on
+                notificationScheduler.setCourseStartNotificationOn(course);
+            }else{
+                // Turn start notifications off
+                notificationScheduler.setCourseStartNotificationOff(course);
+            }
+
+            if(turnEndNotificationOn) {
+                // Set end notifications on
+                notificationScheduler.setCourseEndNotificationOn(course);
+            }else{
+                // Turn end notifications off
+                notificationScheduler.setCourseEndNotificationOff(course);
             }
 
             // Update UI on the main thread

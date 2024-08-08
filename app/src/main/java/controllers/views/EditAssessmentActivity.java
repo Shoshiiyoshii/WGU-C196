@@ -13,6 +13,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -40,7 +41,12 @@ public class EditAssessmentActivity extends AppCompatActivity {
     private String updatedType;
 
     private EditText startDateInput;
+    private SwitchCompat assessmentStartNotificationSwitch;
+    private boolean turnStartNotificationOn;
+
     private EditText endDateInput;
+    private SwitchCompat assessmentEndNotificationSwitch;
+    private boolean turnEndNotificationOn;
 
     private StudentDatabase studentDatabase;
     private AssessmentDAO assessmentDAO;
@@ -62,8 +68,15 @@ public class EditAssessmentActivity extends AppCompatActivity {
         });
 
         assessmentNameInput = findViewById(R.id.assessmentNameInput);
+
         startDateInput = findViewById(R.id.assessmentStartDateInput);
+        assessmentStartNotificationSwitch = findViewById(R.id.assessmentStartNotificationSwitch);
+        setupStartNotificationSwitchListener();
+
         endDateInput = findViewById(R.id.assessmentEndDateInput);
+        assessmentEndNotificationSwitch = findViewById(R.id.assessmentEndNotificationSwitch);
+        setupEndNotificationSwitchListener();
+
         assessmentTypeSpinner = findViewById(R.id.assessmentTypeSpinner);
 
 
@@ -109,6 +122,28 @@ public class EditAssessmentActivity extends AppCompatActivity {
         } else {
             return false;
         }
+    }
+
+    private void setupStartNotificationSwitchListener() {
+        // Set initial state
+        assessmentStartNotificationSwitch.setChecked(false);
+
+        // Set a listener to detect changes
+        assessmentStartNotificationSwitch.setOnCheckedChangeListener((buttonView, notificationsOn) -> {
+            // Switch is on or switch is off
+            turnStartNotificationOn = notificationsOn;
+        });
+    }
+
+    private void setupEndNotificationSwitchListener() {
+        // Set initial state
+        assessmentEndNotificationSwitch.setChecked(false);
+
+        // Set a listener to detect changes
+        assessmentEndNotificationSwitch.setOnCheckedChangeListener((buttonView, notificationsOn) -> {
+            // Switch is on or switch is off
+            turnEndNotificationOn = notificationsOn;
+        });
     }
 
     private void setUpTypeSpinner(String assessmentType) {
@@ -201,7 +236,22 @@ public class EditAssessmentActivity extends AppCompatActivity {
 
             // Set notifications
             NotificationScheduler notificationScheduler = new NotificationScheduler(getApplicationContext());
-            notificationScheduler.setAssessmentNotifications(existingAssessment);
+
+            if(turnStartNotificationOn) {
+                // Set start notifications on
+                notificationScheduler.setAssessmentStartNotificationOn(existingAssessment);
+            }else{
+                // Turn start notifications off
+                notificationScheduler.setAssessmentStartNotificationOff(existingAssessment);
+            }
+
+            if(turnEndNotificationOn) {
+                // Set end notifications on
+                notificationScheduler.setAssessmentEndNotificationOn(existingAssessment);
+            }else{
+                // Turn end notifications off
+                notificationScheduler.setAssessmentEndNotificationOff(existingAssessment);
+            }
 
             // Update UI on the main thread
             runOnUiThread(() -> {

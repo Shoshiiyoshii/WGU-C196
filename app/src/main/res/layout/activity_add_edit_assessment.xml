@@ -36,15 +36,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <!-- Main content -->
-            <TableLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            android:orientation="vertical"
+            android:padding="16dp">
 
                 <!-- Assessment Name -->
-                <TableRow>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -59,10 +60,15 @@
                         android:hint="@string/assessment_name_hint"
                         android:inputType="text"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-                </TableRow>
+            </LinearLayout>
 
                 <!-- Assessment Type -->
-                <TableRow>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp">
                     <TextView
                         android:text="@string/assessment_type"
                         android:layout_width="wrap_content"
@@ -75,10 +81,15 @@
                         android:layout_height="48dp"
                         android:layout_weight="1"
                         android:padding="8dp" />
-                </TableRow>
+            </LinearLayout>
 
                 <!-- Assessment Start Date -->
-                <TableRow>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -93,10 +104,29 @@
                         android:hint="@string/date_placeholder"
                         android:inputType="date"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-                </TableRow>
+            </LinearLayout>
+
+                <!-- Assessment Start Date Notification Switch -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp">
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/assessmentStartNotificationSwitch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/assessment_start_notifications_switch" />
+            </LinearLayout>
 
                 <!-- Assessment End Date -->
-                <TableRow>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp">
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -111,8 +141,20 @@
                         android:hint="@string/date_placeholder"
                         android:inputType="date"
                         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-                </TableRow>
-            </TableLayout>
+            </LinearLayout>
+                <!-- Assessment End Date Notification Switch -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp">
+                    <androidx.appcompat.widget.SwitchCompat
+                        android:id="@+id/assessmentEndNotificationSwitch"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/assessment_end_notifications_switch" />
+            </LinearLayout>
 
             <!-- Buttons -->
             <LinearLayout

@@ -47,6 +47,8 @@
     <string name="instructor_email_hint">instructoremail@email.edu</string>
     <string name="phone_hint">(xxx)xxx-xxxx</string>
     <string name="no_courses_yet">No courses have been added yet</string>
+    <string name="course_start_notifications_switch">Notifications off/on for this courses start date:</string>
+    <string name="course_end_notifications_switch">Notifications off/on for this courses end date:</string>
     <string-array name="course_status">
         <item>In Progress</item>
         <item>Plan To Take</item>
@@ -68,6 +70,8 @@
     <string name="assessment_name">Assessment Name:</string>
     <string name="assessment_name_hint">Name this assessment</string>
     <string name="no_assessments_yet">No assessments have been added yet</string>
+    <string name="assessment_start_notifications_switch">Notifications off/on for this start date:</string>
+    <string name="assessment_end_notifications_switch">Notifications off/on for this end date:</string>
     <string-array name="assessment_type_options">
         <item>Objective</item>
         <item>Performance</item>

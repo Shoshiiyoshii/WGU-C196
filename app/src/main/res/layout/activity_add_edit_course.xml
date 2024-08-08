@@ -85,6 +85,22 @@
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
             </LinearLayout>
 
+        <!-- Course Start Date Notification Switch -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingBottom="8dp">
+
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/courseStartNotificationSwitch"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/course_start_notifications_switch" />
+
+        </LinearLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -106,6 +122,22 @@
                     android:hint="@string/date_placeholder"
                     android:inputType="date"
                     android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+            </LinearLayout>
+
+            <!-- Course End Date Notification Switch -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:paddingBottom="8dp">
+
+                <androidx.appcompat.widget.SwitchCompat
+                    android:id="@+id/courseEndNotificationSwitch"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/course_end_notifications_switch" />
+
             </LinearLayout>
 
             <!-- Course Status -->

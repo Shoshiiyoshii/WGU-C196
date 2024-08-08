@@ -1,6 +1,7 @@
 package controllers.helpers;
 
 import android.app.AlarmManager;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
@@ -29,22 +30,56 @@ public class NotificationScheduler {
         this.context = context;
     }
 
-    public void setCourseNotifications(Course course) {
-        scheduleNotification(course.getStartDate().atStartOfDay(ZoneId.systemDefault()).toEpochSecond() * 1000,
-                "Course Starting", "Course " + course.getCourseName() +
-                        " starts today", course.getCourseId() * NOTIFICATION_BLOCK + NOTIFICATION_TYPE_COURSE_START);
-        scheduleNotification(course.getEndDate().atStartOfDay(ZoneId.systemDefault()).toEpochSecond() * 1000,
-                "Course Ending", "Course " + course.getCourseName() + " ends today",
-                course.getCourseId() * NOTIFICATION_BLOCK + NOTIFICATION_TYPE_COURSE_END);
+    public void setCourseStartNotificationOn(Course course) {
+        scheduleNotification(
+                course.getStartDate().atStartOfDay(ZoneId.systemDefault()).toEpochSecond() * 1000,
+                "Course Starting",
+                "Course " + course.getCourseName() + " starts today",
+                course.getCourseId() * NOTIFICATION_BLOCK + NOTIFICATION_TYPE_COURSE_START
+        );
     }
 
-    public void setAssessmentNotifications(Assessment assessment) {
-        scheduleNotification(assessment.getAssessmentStartDate().atStartOfDay(ZoneId.systemDefault()).toEpochSecond() * 1000,
-                "Assessment Starting", "Assessment " + assessment.getAssessmentName() + " starts today",
-                assessment.getAssessmentId() * NOTIFICATION_BLOCK + NOTIFICATION_TYPE_ASSESSMENT_START);
-        scheduleNotification(assessment.getAssessmentDueDate().atStartOfDay(ZoneId.systemDefault()).toEpochSecond() * 1000,
-                "Assessment Due", "Assessment " + assessment.getAssessmentName() +
-                        " is due today", assessment.getAssessmentId() * NOTIFICATION_BLOCK + NOTIFICATION_TYPE_ASSESSMENT_END);
+    public void setCourseStartNotificationOff(Course course) {
+        cancelNotification(course.getCourseId() * NOTIFICATION_BLOCK + NOTIFICATION_TYPE_COURSE_START);
+    }
+
+    public void setCourseEndNotificationOn(Course course) {
+        scheduleNotification(
+                course.getEndDate().atStartOfDay(ZoneId.systemDefault()).toEpochSecond() * 1000,
+                "Course Ending",
+                "Course " + course.getCourseName() + " ends today",
+                course.getCourseId() * NOTIFICATION_BLOCK + NOTIFICATION_TYPE_COURSE_END
+        );
+    }
+
+    public void setCourseEndNotificationOff(Course course) {
+        cancelNotification(course.getCourseId() * NOTIFICATION_BLOCK + NOTIFICATION_TYPE_COURSE_END);
+    }
+
+    public void setAssessmentStartNotificationOn(Assessment assessment) {
+        scheduleNotification(
+                assessment.getAssessmentStartDate().atStartOfDay(ZoneId.systemDefault()).toEpochSecond() * 1000,
+                "Assessment Starting",
+                "Assessment " + assessment.getAssessmentName() + " starts today",
+                assessment.getAssessmentId() * NOTIFICATION_BLOCK + NOTIFICATION_TYPE_ASSESSMENT_START
+        );
+    }
+
+    public void setAssessmentStartNotificationOff(Assessment assessment) {
+        cancelNotification(assessment.getAssessmentId() * NOTIFICATION_BLOCK + NOTIFICATION_TYPE_ASSESSMENT_START);
+    }
+
+    public void setAssessmentEndNotificationOn(Assessment assessment) {
+        scheduleNotification(
+                assessment.getAssessmentDueDate().atStartOfDay(ZoneId.systemDefault()).toEpochSecond() * 1000,
+                "Assessment Due",
+                "Assessment " + assessment.getAssessmentName() + " is due today",
+                assessment.getAssessmentId() * NOTIFICATION_BLOCK + NOTIFICATION_TYPE_ASSESSMENT_END
+        );
+    }
+
+    public void setAssessmentEndNotificationOff(Assessment assessment) {
+        cancelNotification(assessment.getAssessmentId() * NOTIFICATION_BLOCK + NOTIFICATION_TYPE_ASSESSMENT_END);
     }
 
     private void scheduleNotification(long triggerTime, String title, String notificationMsg, int notificationId) {
@@ -52,10 +87,37 @@ public class NotificationScheduler {
         intent.putExtra("title", title);
         intent.putExtra("notificationMsg", notificationMsg);
         intent.putExtra("notificationId", notificationId);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, notificationId, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                context,
+                notificationId,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
 
         AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager != null) {
+            alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
+        }
+    }
 
-        alarmManager.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, triggerTime, pendingIntent);
+    private void cancelNotification(int notificationId) {
+        Intent intent = new Intent(context, NotificationReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(
+                context,
+                notificationId,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
+
+        AlarmManager alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        if (alarmManager != null) {
+            alarmManager.cancel(pendingIntent);
+        }
+
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        if (notificationManager != null) {
+            notificationManager.cancel(notificationId);
+        }
     }
 }

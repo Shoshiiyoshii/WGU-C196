@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainActivity">
+
+    <activity
+        android:id="@+id/mainActivity"
+        android:name="view.MainActivity"
+        android:label="activity_main"
+        tools:layout="@layout/activity_main">
+    </activity>
+
+    <activity
+        android:id="@+id/termActivity"
+        android:name="view.TermActivity"
+        android:label="activity_term"
+        tools:layout="@layout/activity_term" />
+    <activity
+        android:id="@+id/courseActivity"
+        android:name="view.CourseActivity"
+        android:label="activity_course"
+        tools:layout="@layout/activity_course" />
+    <activity
+        android:id="@+id/assessmentActivity"
+        android:name="view.AssessmentActivity"
+        android:label="activity_assessment"
+        tools:layout="@layout/activity_assessment" />
+    <activity
+        android:id="@+id/addAssessmentActivity"
+        android:name="view.AddAssessmentActivity"
+        android:label="activity_add_assessment"
+        tools:layout="@layout/activity_add_assessment" />
+    <activity
+        android:id="@+id/addCourseActivity"
+        android:name="view.AddCourseActivity"
+        android:label="activity_add_course"
+        tools:layout="@layout/activity_add_course" />
+    <activity
+        android:id="@+id/addTermActivity"
+        android:name="view.AddTermActivity"
+        android:label="activity_add_term"
+        tools:layout="@layout/activity_add_term" />
+    <activity
+        android:id="@+id/assessmentDetailsActivity"
+        android:name="view.AssessmentDetailsActivity"
+        android:label="activity_assessment_details"
+        tools:layout="@layout/activity_assessment_details" />
+    <activity
+        android:id="@+id/courseDetailsActivity"
+        android:name="view.CourseDetailsActivity"
+        android:label="activity_course_details"
+        tools:layout="@layout/activity_course_details" />
+    <activity
+        android:id="@+id/termDetailsActivity"
+        android:name="view.TermDetailsActivity"
+        android:label="activity_term_details"
+        tools:layout="@layout/activity_term_details" />
+
+    <action
+        android:id="@+id/action_to_main"
+        app:destination="@+id/mainActivity"/>
+    <action
+        android:id="@+id/action_to_terms"
+        app:destination="@+id/termActivity"/>
+    <action
+        android:id="@+id/action_to_courses"
+        app:destination="@id/courseActivity"/>
+    <action
+        android:id="@+id/action_to_assessments"
+        app:destination="@id/assessmentActivity"/>
+    <action
+        android:id="@+id/action_to_term_details"
+        app:destination="@+id/termDetailsActivity"/>
+    <action
+        android:id="@+id/action_to_course_details"
+        app:destination="@id/courseDetailsActivity"/>
+    <action
+        android:id="@+id/action_to_assessment_details"
+        app:destination="@id/assessmentDetailsActivity"/>
+    <action
+        android:id="@+id/action_to_add_or_edit_term"
+        app:destination="@+id/addTermActivity"/>
+    <action
+        android:id="@+id/action_to_add_or_edit_course"
+        app:destination="@+id/addCourseActivity"/>
+    <action
+        android:id="@+id/action_to_add_or_edit_assessment"
+        app:destination="@+id/addAssessmentActivity"/>
+
+</navigation>
