@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Primary colors for UI elements -->
+    <color name="colorPrimary">#097A8B</color>
+    <color name="colorPrimaryDark">#084939</color>
+    <color name="colorAccent">#00ACC1</color>
+
+    <!-- Background color -->
+    <color name="colorBackground">#EBF4F6</color>
+
+    <!-- Text colors -->
+    <color name="colorTextPrimary">#071952</color>
+    <color name="colorTextSecondary">#097A8B</color>
+    <color name="colorTextWhite">#FFFFFF</color>
+    <color name="colorTextDisabled">#757575</color>
+
+    <!-- Error color -->
+    <color name="colorError">#8B322C</color>
 </resources>

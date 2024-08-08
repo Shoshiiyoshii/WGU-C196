@@ -1,3 +1,101 @@
 <resources>
-    <string name="app_name">C196PaStudentApp</string>
+
+    <string name="app_name">Organized Owl</string>
+
+    <!-- Copy For Home/Main Screen -->
+    <string name="title_home">Home</string>
+    <string name="main_intro">Hello Student! Welcome! This is an app to help you track and
+        manage your Terms, Courses, and Assessments. </string>
+    <string name="main_term_button">Go To Terms</string>
+    <string name="main_course_button">Go To Courses</string>
+    <string name="main_assessments_button">Go To Assessments</string>
+
+    <!-- Copy For Term Screens -->
+    <string name="title_terms">Terms</string>
+    <string name="title_term_details">Details for Selected Term</string>
+    <string name="terms_edit_title">Edit Term</string>
+    <string name="term_list_intro">Add a term using the button below,
+        or select one of your existing terms to see details, edit, or delete that term.</string>
+    <string name="term_add">Add Term</string>
+    <string name="edit_term_courses_instructions">Manage courses for this term using the list below.
+        Checked courses will be added to the term; unchecked courses will be removed. Note: All
+        courses must be removed before deleting the term.</string>
+    <string name="term_name">Term Title:</string>
+    <string name="term_name_hint">Name this term</string>
+    <string name="no_terms_yet">No terms have been added yet</string>
+
+
+    <!-- Copy For Courses Screens -->
+    <string name="title_courses">Courses</string>
+    <string name="title_course_details">Details for Selected Course</string>
+    <string name="associated_courses">Associated Courses:</string>
+    <string name="course_list_intro">Add a course using the button below,
+        or select one of your existing courses to see details, edit, or delete that course.</string>
+    <string name="edit_course_assessments_instructions">Manage assessments for this course using the list below.
+        Checked assessments will be added to the term; unchecked assessments will be removed. Note: All
+        assessments must be removed before deleting the term.</string>
+    <string name="course_edit">Edit Course</string>
+    <string name="course_name">Course Name:</string>
+    <string name="course_name_hint">Name this course</string>
+    <string name="course_notes_hint">Add an optional note to this course.</string>
+    <string name="share_button">Share Course Note</string>
+    <string name="share_text">If you\'d like to share this course note via SMS, input a phone number and click \"Share Course Note\" below:</string>
+    <string name="instructor_name">Instructor Name: </string>
+    <string name="instructor_phone">Instructor Phone: </string>
+    <string name="instructor_email">Instructor Email:</string>
+    <string name="instructor_name_hint"> First and Last Name</string>
+    <string name="instructor_email_hint">instructoremail@email.edu</string>
+    <string name="phone_hint">(xxx)xxx-xxxx</string>
+    <string name="no_courses_yet">No courses have been added yet</string>
+    <string name="course_start_notifications_switch">Notifications off/on for this courses start date:</string>
+    <string name="course_end_notifications_switch">Notifications off/on for this courses end date:</string>
+    <string-array name="course_status">
+        <item>In Progress</item>
+        <item>Plan To Take</item>
+        <item>Completed</item>
+        <item>Dropped</item>
+    </string-array>
+
+    <!-- Copy For Assessments Screens -->
+    <string name="title_assessments">Assessments</string>
+    <string name="title_assessment_details">Details for Selected Assessment</string>
+    <string name="associated_assessments">Select this courses assessments: </string>
+    <string name="assessment_list_intro">Add an assessment using the button below,
+        or select one of your existing assessments to see details, edit, or delete that assessment.</string>
+    <string name="assessment_add">Add Assessment</string>
+    <string name="assessment_edit">Edit Assessment</string>
+    <string name="assessment_type">Assessment Type:</string>
+    <string name="objective">Objective</string>
+    <string name="performance">Performance</string>
+    <string name="assessment_name">Assessment Name:</string>
+    <string name="assessment_name_hint">Name this assessment</string>
+    <string name="no_assessments_yet">No assessments have been added yet</string>
+    <string name="assessment_start_notifications_switch">Notifications off/on for this start date:</string>
+    <string name="assessment_end_notifications_switch">Notifications off/on for this end date:</string>
+    <string-array name="assessment_type_options">
+        <item>Objective</item>
+        <item>Performance</item>
+    </string-array>
+
+
+    <!-- Copy For The Details Screens -->
+    <string name="start">Start Date: </string>
+    <string name="end">End Date: </string>
+    <string name="date_placeholder">MM/DD/YYYY</string>
+
+    <string name="edit_button">Edit</string>
+    <string name="delete_button">Delete</string>
+    <string name="save_button">Save Changes</string>
+    <string name="discard_button">Discard Changes</string>
+
+    <string name="status">Status: </string>
+    <string name="in_progress">In Progress</string>
+    <string name="dropped">Dropped</string>
+    <string name="planned">Plan to Take</string>
+    <string name="completed">Completed</string>
+
+    <string name="course_notes">Course Notes:</string>
+    <string name="course_add">Add Course</string>
+
+
 </resources>
